@@ -42,6 +42,12 @@ public class MenuManager : MonoBehaviour
     private bool _gameStarted;
     public bool GameStarted { get { return _gameStarted; } set { _gameStarted = value; } }
 
+    private bool _gamePaused;
+    public bool GamePaused { get { return _gamePaused; } set { _gamePaused = value; } }
+
+    private bool _gameUnpaused;
+    public bool GameUnpaused { get { return _gameUnpaused; } set { _gameUnpaused = value; } }
+
     private bool _gameSelectionOpened;
     public bool GameSelectionOpened { get { return _gameSelectionOpened; } set { _gameSelectionOpened = value; } }
 

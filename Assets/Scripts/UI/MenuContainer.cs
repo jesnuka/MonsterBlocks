@@ -27,7 +27,6 @@ public abstract class MenuContainer : MonoBehaviour
     {
         // Exit current menu, enter new menu,
         // then change the CurrentMenu reference in menuManager
-
         if (newMenu == null)
             return;
 
