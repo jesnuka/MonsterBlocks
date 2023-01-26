@@ -17,8 +17,11 @@ public class GameState_Menu : GameState
     }
     public override void CheckTransitions()
     {
-       // if(isStartGame)
-       //     transitionstate(InitializeBlocks);
+        if (_stateManager.GameStarted)
+        {
+            _stateManager.GameStarted = false;
+            TransitionState(_stateFactory.StateStartGame());
+        }
     }
 
     public override void CheckInput()

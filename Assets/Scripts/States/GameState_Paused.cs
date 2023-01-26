@@ -13,12 +13,19 @@ public class GameState_Paused : GameState
 
     public override void ExitState()
     {
-      //  StateManager.OnGameStateChanged?.Invoke(newState);
-
     }
     public override void CheckTransitions()
     {
+        if (!_stateManager.GamePaused)
+            TransitionState(_stateManager.PreviousState);
 
+        if (_stateManager.ReturnedToMenu)
+        {
+            // TODO: Reset game here, so it is started again next time properly
+            _stateManager.GamePaused = false;
+            _stateManager.ReturnedToMenu = false;
+            TransitionState(_stateFactory.StateMenu());
+        }
     }
 
     public override void CheckInput()

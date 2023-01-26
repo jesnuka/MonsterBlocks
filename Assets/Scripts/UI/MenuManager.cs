@@ -21,6 +21,10 @@ public class MenuManager : MonoBehaviour
     [field: SerializeField] private MenuContainer _pauseMenu;
     public MenuContainer PauseMenu { get { return _pauseMenu; } }
 
+    // Loading screen displayed during initialization of the game
+    [field: SerializeField] private MenuContainer _startingLoadingScreen;
+    public MenuContainer StartingLoadingScreen { get { return _startingLoadingScreen; } }
+
 
     [Header("Menus")]
     private MenuContainer _currentMenu;
@@ -33,20 +37,26 @@ public class MenuManager : MonoBehaviour
     // Goes back one level in the menus
     public static event Action OnReturnToPreviousMenu;
     public static event Action OnEnterGameSelection;
+    public static event Action OnEnterPreviousMenu;
     public static event Action OnStartGame;
     public static event Action OnExitGame;
-    public static event Action OnEnterPreviousMenu;
+    public static event Action OnPauseGame;
+    public static event Action OnUnpauseGame;
+    public static event Action OnReturnToMenu;
 
     // Flags
 
     private bool _gameStarted;
     public bool GameStarted { get { return _gameStarted; } set { _gameStarted = value; } }
 
+    private bool _gameInitialized;
+    public bool GameInitialized { get { return _gameInitialized; } set { _gameInitialized = value; } }
+
     private bool _gamePaused;
     public bool GamePaused { get { return _gamePaused; } set { _gamePaused = value; } }
 
-    private bool _gameUnpaused;
-    public bool GameUnpaused { get { return _gameUnpaused; } set { _gameUnpaused = value; } }
+  //  private bool _gameUnpaused;
+  //  public bool GameUnpaused { get { return _gameUnpaused; } set { _gameUnpaused = value; } }
 
     private bool _gameSelectionOpened;
     public bool GameSelectionOpened { get { return _gameSelectionOpened; } set { _gameSelectionOpened = value; } }
@@ -54,12 +64,21 @@ public class MenuManager : MonoBehaviour
     private bool _previousMenuOpened;
     public bool PreviousMenuOpened { get { return _previousMenuOpened; } set { _previousMenuOpened = value; } }
 
+    private bool _returnedToMenu;
+    public bool ReturnedToMenu { get { return _returnedToMenu; } set { _returnedToMenu = value; } }
+
     private void Start()
     {
+        HandleEvents();
         InitializeMenus();
 
         if(_mainMenu != null)
             _currentMenu = _mainMenu;
+    }
+
+    private void HandleEvents()
+    {
+        GameStateManager.OnBlocksInitialized += InitializeGame;
     }
 
     private void InitializeMenus()
@@ -85,15 +104,34 @@ public class MenuManager : MonoBehaviour
         GameSelectionOpened = true;
         OnEnterGameSelection?.Invoke();
     }
-
-    public void StartGame()
+    public void PauseGame()
     {
-        GameStarted = true;
-        OnStartGame?.Invoke();
+        OnPauseGame?.Invoke();
+        GamePaused = true;
     }
+
+    public void UnpauseGame()
+    {
+        OnUnpauseGame?.Invoke();
+        GamePaused = false;
+    }
+
     public void ExitGame()
     {
         OnExitGame?.Invoke();
+        Application.Quit();
+    }
+
+    private void InitializeGame()
+    {
+        GameInitialized = true;
+    }
+
+    public void StartGame()
+    {
+        OnStartGame?.Invoke();
+        Debug.Log("started game");
+        GameStarted = true;
     }
 
     private void Update()

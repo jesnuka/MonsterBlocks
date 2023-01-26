@@ -11,15 +11,19 @@ public class MenuContainer_Gameplay : MenuContainer
 
     public override void CheckTransitions()
     {
+        Debug.Log("Here");
         if (_menuManager.GamePaused)
             ChangeMenu(_menuManager.PauseMenu);
         if (_menuManager.PreviousMenuOpened)
-            ChangeMenu(_menuManager.MainMenu);
+        {
+            _menuManager.PreviousMenuOpened = false;
+            ChangeMenu(_menuManager.PauseMenu);
+        }
     }
 
     public override void CloseMenuExtras()
     {
-        _menuManager.GameSelectionOpened = false;
+
     }
 
     public override void OpenMenuExtras()

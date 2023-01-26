@@ -30,6 +30,8 @@ public abstract class MenuContainer : MonoBehaviour
         if (newMenu == null)
             return;
 
+        Debug.Log("Changing Menu from " + this.ToString() + " to " + newMenu.ToString());
+
         CloseMenu();
         newMenu.OpenMenu();
         _menuManager.CurrentMenu = newMenu;

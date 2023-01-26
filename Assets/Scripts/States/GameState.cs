@@ -16,10 +16,15 @@ public abstract class GameState
     public abstract void CheckTransitions();
     protected void TransitionState(GameState newState)
     {
-        // Exit current state, enter new state, then change the CurrentState reference in stateManager
+        // Exit current state, enter new state,
+        // then change the CurrentState reference in stateManager
 
         if(newState == null)
             return;
+
+        Debug.Log("Changing State from " + this.ToString() + " to " + newState.ToString());
+
+        _stateManager.PreviousState = this;
 
         ExitState();
 

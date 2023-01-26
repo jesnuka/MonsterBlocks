@@ -5,69 +5,69 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    [Header("States")]
+    [Header("References")]
+    private BlockGrid _blockGrid;
+    public BlockGrid BlockGrid { get { return _blockGrid; } }
+
+   /* [Header("States")]
     [SerializeField] static GameState_Menu gameState_Menu;
     [SerializeField] static GameState_Paused gameState_Paused;
     [SerializeField] static GameState_StartGame gameState_StartGame;
     [SerializeField] static GameState_DropBlocks gameState_DropBlocks;
     [SerializeField] static GameState_LineCheck gameState_LineCheck;
-    [SerializeField] static GameState_LostGame gameState_LostGame;
-
-
+    [SerializeField] static GameState_LostGame gameState_LostGame;*/
 
     // Events
     public static event Action<GameState> OnGameStateChanged;
-    public static event Action OnStartGame;
-    public static event Action OnExitGame;
-    public static event Action OnPauseGame;
-    public static event Action OnUnpauseGame;
-
+    public static event Action OnBlocksInitialized;
 
     // Flags
-    private bool _isGameStarted;
-    public bool IsGameStarted { get { return _isGameStarted; } }
+    private bool _gameStarted;
+    public bool GameStarted { get { return _gameStarted; } set { _gameStarted = value; } }
 
-    private bool _isGamePaused;
-    public bool IsGamePaused { get { return _isGamePaused; } }
+    private bool _gamePaused;
+    public bool GamePaused { get { return _gamePaused; } set { _gamePaused = value; } }
 
-    private bool _isBlocksInitialized;
-    public bool IsBlocksInitialized { get { return _isBlocksInitialized; }}
+    private bool _blocksInitialized;
+    public bool BlocksInitialized { get { return _blocksInitialized; } set { _blocksInitialized = value; } }
+
+    private bool _returnedToMenu;
+    public bool ReturnedToMenu { get { return _returnedToMenu; } set { _returnedToMenu = value; } }
 
     // Variables
+    private GameState _previousState;
+    public GameState PreviousState { get { return _previousState; } set { _previousState = value; } }
+
     private GameState _currentState;
     public GameState CurrentState { get { return _currentState; } set { _currentState = value; } }
     GameStateFactory _states;
 
     private void Awake()
     {
-        // Setup the state machine
-        _states = new GameStateFactory(this);
-        _currentState = _states.StateMenu();
-        _currentState.EnterState();
+        Initialize();
     }
     void Start()
     {
-        Initialize();
+        HandleEvents();
     }
 
     private void HandleEvents()
     {
-        OnStartGame += StartGame;
-        OnExitGame += ExitGame;
+        MenuManager.OnStartGame += StartGame;
+        MenuManager.OnExitGame += ExitGame;
 
+        MenuManager.OnPauseGame += PauseGame;
+        MenuManager.OnUnpauseGame += UnpauseGame;
+
+        MenuManager.OnReturnToMenu += ReturnToMenu;
     }
 
     private void Initialize()
     {
-        HandleEvents();
-     //   _currentState = gameState_Paused;
-    }
+        // Setup the state machine
+        _states = new GameStateFactory(this);
 
-    private void ChangeGameState(GameState newState)
-    {
-        //   previousState = currentState;
-        CurrentState.ExitState();
-        _currentState = newState;
+        CurrentState = _states.StateMenu();
         CurrentState.EnterState();
     }
 
@@ -79,14 +79,27 @@ public class GameStateManager : MonoBehaviour
         CurrentState.UpdateState();
     }
 
-    private void PauseGame()
+    // Debug Public for now
+  //  private void InitializeBlocks()
+    public void InitializeBlocks()
     {
-        _isGamePaused = true;
+        OnBlocksInitialized?.Invoke();
+        BlocksInitialized = true;
     }
 
-    private void UnPause()
+    private void ReturnToMenu()
     {
-        _isGamePaused = false;
+        ReturnedToMenu = true;
+    }
+
+    private void PauseGame()
+    {
+        GamePaused = true;
+    }
+
+    private void UnpauseGame()
+    {
+        GamePaused = false;
     }
 
     private void ExitGame()
@@ -97,11 +110,6 @@ public class GameStateManager : MonoBehaviour
     private void StartGame()
     {
         Debug.Log("started game");
-        _isGameStarted = true;
-    }
-    private void BlocksInitialized()
-    {
-        _isGameStarted = false;
-        _isBlocksInitialized = false;
+        GameStarted = true;
     }
 }

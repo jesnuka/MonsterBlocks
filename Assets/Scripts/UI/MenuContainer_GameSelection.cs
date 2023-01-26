@@ -12,14 +12,21 @@ public class MenuContainer_GameSelection : MenuContainer
     public override void CheckTransitions()
     {
         if (_menuManager.GameStarted)
-            ChangeMenu(_menuManager.GameplayMenu);
+        {
+            _menuManager.GameStarted = false;
+            ChangeMenu(_menuManager.StartingLoadingScreen);
+        }
+
         if (_menuManager.PreviousMenuOpened)
+        {
+            _menuManager.PreviousMenuOpened = false;
             ChangeMenu(_menuManager.MainMenu);
+        }
     }
 
     public override void CloseMenuExtras()
     {
-        _menuManager.GameStarted = false;
+
     }
 
     public override void OpenMenuExtras()

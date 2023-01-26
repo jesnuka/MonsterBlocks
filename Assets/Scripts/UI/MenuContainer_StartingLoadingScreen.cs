@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuContainer_MainMenu : MenuContainer
+public class MenuContainer_StartingLoadingScreen : MenuContainer
 {
+    [SerializeField] private Animation loadingIcon;
     public override void CheckInput()
     {
 
@@ -11,23 +12,21 @@ public class MenuContainer_MainMenu : MenuContainer
 
     public override void CheckTransitions()
     {
-        if (_menuManager.GameSelectionOpened)
+        if (_menuManager.GameInitialized)
         {
-            _menuManager.GameSelectionOpened = false;
-            ChangeMenu(_menuManager.GameSelectionMenu);
+            _menuManager.GameInitialized = false;
+            ChangeMenu(_menuManager.GameplayMenu);
         }
-     //   if (_menuManager.PreviousMenuOpened) 
-     //       _menuManager.PreviousMenuOpened = false;
     }
 
     public override void CloseMenuExtras()
     {
-
+        loadingIcon.Stop();
     }
 
     public override void OpenMenuExtras()
     {
-
+        loadingIcon.Play();
     }
 
     public override void UpdateMenu()
