@@ -9,7 +9,7 @@ public class GameState_StartGame : GameState
 
     public override void EnterState()
     {
-        _stateManager.GameStarted = false;
+        _stateManager.GameGrid.CreateBlockGrid();
     }
 
     public override void ExitState()

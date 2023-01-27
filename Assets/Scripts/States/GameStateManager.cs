@@ -6,8 +6,8 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     [Header("References")]
-    private BlockGrid _blockGrid;
-    public BlockGrid BlockGrid { get { return _blockGrid; } }
+    [field:SerializeField] private BlockGrid _gameGrid;
+    public BlockGrid GameGrid { get { return _gameGrid; } }
 
    /* [Header("States")]
     [SerializeField] static GameState_Menu gameState_Menu;
@@ -60,6 +60,8 @@ public class GameStateManager : MonoBehaviour
         MenuManager.OnUnpauseGame += UnpauseGame;
 
         MenuManager.OnReturnToMenu += ReturnToMenu;
+
+        BlockGrid.OnBlocksInitialized += InitializeBlocks;
     }
 
     private void Initialize()
