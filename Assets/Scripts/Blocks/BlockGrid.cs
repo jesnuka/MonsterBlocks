@@ -21,7 +21,10 @@ public class BlockGrid : MonoBehaviour
     [Header("UI Elements")]
     [Tooltip("Contains the block columns, which contain blocks")]
     [SerializeField] private GameObject _blockGridObject;
-    public GameObject BlockGridObject { get { return _blockGridObject; }}
+    public GameObject BlockGridObject { get { return _blockGridObject; } }
+
+    [SerializeField] private GameObject _blockGridBackground;
+    public GameObject BlockGridBackground { get { return _blockGridBackground; } }
 
     private BlockColumn[] _blockColumns;
     public BlockColumn[] BlockColumns { get { return _blockColumns; } set { _blockColumns = value; } }
@@ -37,10 +40,17 @@ public class BlockGrid : MonoBehaviour
         ColumnAmount = Mathf.Clamp(GameSettings.CurrentColumnAmount, 1, GameSettings.MaxColumnAmount);
         RowAmount = Mathf.Clamp(GameSettings.CurrentRowAmount, 1, GameSettings.MaxRowAmount);
 
+        Debug.Log("Size y: " + BlockGridObject.GetComponent<RectTransform>().sizeDelta.y);
         // Align game board according to the size
         BlockGridObject.GetComponent<RectTransform>().offsetMax = new Vector2(
         BlockGridObject.GetComponent<RectTransform>().offsetMax.x,
-        BlockGridObject.GetComponent<RectTransform>().offsetMax.y - ((RowAmount - 1) * 25.0f));
+        BlockGridObject.GetComponent<RectTransform>().offsetMax.y - ((RowAmount - 1) * BlockFactory.GetBlockPrefabSize().y));
+
+        // Aligh background 
+        int odd = ColumnAmount % 2;
+        BlockGridBackground.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            (ColumnAmount) * BlockFactory.GetBlockPrefabSize().x - (odd * BlockFactory.GetBlockPrefabSize().x),
+            BlockGridBackground.GetComponent<RectTransform>().sizeDelta.y);
 
     }
 
