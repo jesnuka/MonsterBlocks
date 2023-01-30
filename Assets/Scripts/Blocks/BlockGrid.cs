@@ -26,14 +26,20 @@ public class BlockGrid : MonoBehaviour
     [SerializeField] private GameObject _blockGridBackground;
     public GameObject BlockGridBackground { get { return _blockGridBackground; } }
 
+    [Header("Game Related")]
+
     private BlockColumn[] _blockColumns;
     public BlockColumn[] BlockColumns { get { return _blockColumns; } set { _blockColumns = value; } }
 
     private int _columnAmount;
-    public int ColumnAmount { get { return _columnAmount; } set { _columnAmount = value; } }
+    public int ColumnAmount { get { return _columnAmount; } set { if (_columnAmount > 4) _columnAmount = value; else _columnAmount = 4; } }
 
     private int _rowAmount;
-    public int RowAmount { get { return _rowAmount; } set { _rowAmount = value; } }
+    public int RowAmount { get { return _rowAmount; } set { if (_rowAmount > 4) _rowAmount = value; else _rowAmount = 4; } }
+
+    // The BlockPosition within the BlockGrid where to spawn BlockShapes
+    private BlockPosition _spawnPosition;
+    public BlockPosition SpawnPosition { get { return _spawnPosition; } set { _spawnPosition = value; } }
 
     public void SetupGrid()
     {
@@ -52,6 +58,21 @@ public class BlockGrid : MonoBehaviour
             (ColumnAmount) * BlockFactory.GetBlockPrefabSize().x - (odd * BlockFactory.GetBlockPrefabSize().x),
             BlockGridBackground.GetComponent<RectTransform>().sizeDelta.y);
 
+        CreateSpawnPosition(odd);
+
+    }
+
+    private void CreateSpawnPosition(int odd)
+    {
+        if (ColumnAmount <= 0)
+            return;
+
+        int column = (ColumnAmount / 2) - 2;
+
+        if (column < 0)
+            column = 0;
+
+        SpawnPosition = new BlockPosition(column, 0);
     }
 
     public void ResetBoard()

@@ -5,7 +5,8 @@ using UnityEngine;
 public class BlockShapePosition 
 {
     // Block coordinates currently range
-    // from top left X:0 Y:0, to bottom right X:4 Y:4
+    // from top left X:0 Y:0, to bottom right X:3 Y:3
+    // Therefore, maximum block size is 4x4 blocks
 
     public int _x;
     public int X { get { return _x; }}

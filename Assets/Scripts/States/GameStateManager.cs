@@ -6,16 +6,19 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     [Header("References")]
-    [field:SerializeField] private BlockGrid _gameGrid;
-    public BlockGrid GameGrid { get { return _gameGrid; } }
+    [field:SerializeField] private BlockGrid _blockGrid;
+    public BlockGrid BlockGrid { get { return _blockGrid; } }
 
-   /* [Header("States")]
-    [SerializeField] static GameState_Menu gameState_Menu;
-    [SerializeField] static GameState_Paused gameState_Paused;
-    [SerializeField] static GameState_StartGame gameState_StartGame;
-    [SerializeField] static GameState_DropBlocks gameState_DropBlocks;
-    [SerializeField] static GameState_LineCheck gameState_LineCheck;
-    [SerializeField] static GameState_LostGame gameState_LostGame;*/
+    [field: SerializeField] private BlockShapeController _blockController;
+    public BlockShapeController BlockController { get { return _blockController; } }
+
+    /* [Header("States")]
+     [SerializeField] static GameState_Menu gameState_Menu;
+     [SerializeField] static GameState_Paused gameState_Paused;
+     [SerializeField] static GameState_StartGame gameState_StartGame;
+     [SerializeField] static GameState_DropBlocks gameState_DropBlocks;
+     [SerializeField] static GameState_LineCheck gameState_LineCheck;
+     [SerializeField] static GameState_LostGame gameState_LostGame;*/
 
     // Events
     public static event Action<GameState> OnGameStateChanged;

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    private BlockGrid _gameGrid;
-    public BlockGrid GameGrid { get { return _gameGrid; } set { _gameGrid = value; } }
+    private BlockGrid _blockGrid;
+    public BlockGrid BlockGrid { get { return _blockGrid; } set { _blockGrid = value; } }
 
     private BlockPosition _blockPosition;
     public BlockPosition BlockPosition { get { return _blockPosition; } set { _blockPosition = value; } }

@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameState_DropBlocks : GameState
 {
 
+    private bool _blockDropped;
+    public bool BlockDropped { get { return _blockDropped; } set { _blockDropped = value; } }
+
     public GameState_DropBlocks(GameStateManager stateManager, GameStateFactory gameStateFactory) : base(stateManager, gameStateFactory) { }
     public override void EnterState()
     {
@@ -17,17 +20,23 @@ public class GameState_DropBlocks : GameState
     }
     public override void CheckTransitions()
     {
-        // TODO: ADD PAUSE TO ALL GAMESTATES THAT CAN PAUSE
         if (_stateManager.GamePaused)
             TransitionState(_stateFactory.StatePaused());
     }
 
     public override void CheckInput()
     {
-
+        // Check for player input to rotate the block
     }
     public override void UpdateState()
     {
+        if(!BlockDropped)
+        {
+            BlockDropped = true;
 
+            // Spawn block
+        }
+
+        // Move block down
     }
 }

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BlockShape_Line : BlockShape
 {
-    public BlockShape_Line()
+    public BlockShape_Line(BlockGrid blockGrid) : base(blockGrid) { }
+
+    //public BlockShape_Line(BlockGrid blockGrid)
+    public override void CreateBlockShapePositions()
     {
-        BlockPositions = new BlockShapePosition[][]
+        BlockShapePositions = new BlockShapePosition[][]
         {
             new BlockShapePosition[]
             {
@@ -15,7 +18,7 @@ public class BlockShape_Line : BlockShape
                 new BlockShapePosition(2, 2),
                 new BlockShapePosition(3, 2),
             },
-        }; 
+        };
 
     }
 }

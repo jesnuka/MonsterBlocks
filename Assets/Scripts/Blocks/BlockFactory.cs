@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BlockFactory : MonoBehaviour
 {
-    BlockGrid _gameGrid;
-    public BlockGrid GameGrid { get { return _gameGrid; } }
+    BlockGrid _blockGrid;
+    public BlockGrid BlockGrid { get { return _blockGrid; } }
 
     [Header("Prefabs")]
     [SerializeField] private GameObject _columnPrefab;
@@ -16,7 +16,7 @@ public class BlockFactory : MonoBehaviour
 
     public BlockFactory(BlockGrid blockGrid)
     {
-        _gameGrid = blockGrid;
+        _blockGrid = blockGrid;
     }
     public Block CreateBlock(Vector3 position, Transform parent, BlockGrid blockGrid)
     {
@@ -25,7 +25,7 @@ public class BlockFactory : MonoBehaviour
         blockObject.transform.SetParent(parent, false);
         Block block = blockObject.GetComponent<Block>();
         block.BlockSprite.DeactivateBlock();
-        block.GameGrid = GameGrid;
+        block.BlockGrid = BlockGrid;
 
         return block;
     }
