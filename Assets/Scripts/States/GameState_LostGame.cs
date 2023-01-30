@@ -16,7 +16,15 @@ public class GameState_LostGame : GameState
     }
     public override void CheckTransitions()
     {
+        if(_stateManager.GameStarted)
+            TransitionState(_stateFactory.StateMenu());
 
+        if (_stateManager.ReturnedToMenu)
+        {
+            // TODO: Reset game here, so it is started again next time properly
+            _stateManager.ReturnedToMenu = false;
+            TransitionState(_stateFactory.StateMenu());
+        }
     }
     public override void CheckInput()
     {

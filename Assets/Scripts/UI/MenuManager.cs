@@ -99,6 +99,12 @@ public class MenuManager : MonoBehaviour
         OnReturnToPreviousMenu?.Invoke();
     }
 
+    public void ReturnToMainMenu()
+    {
+        ReturnedToMenu = true;
+        OnReturnToMenu?.Invoke();
+    }
+
     public void EnterGameSelection()
     {
         GameSelectionOpened = true;

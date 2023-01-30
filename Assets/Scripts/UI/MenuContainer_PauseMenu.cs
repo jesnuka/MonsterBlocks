@@ -13,10 +13,10 @@ public class MenuContainer_PauseMenu : MenuContainer
     {
         if (!_menuManager.GamePaused)
             ChangeMenu(_menuManager.GameplayMenu);
-        if (_menuManager.PreviousMenuOpened)
+        if (_menuManager.ReturnedToMenu)
         {
             _menuManager.GamePaused = false;
-            _menuManager.PreviousMenuOpened = false;
+            _menuManager.ReturnedToMenu = false;
             ChangeMenu(_menuManager.MainMenu);
         }
     }

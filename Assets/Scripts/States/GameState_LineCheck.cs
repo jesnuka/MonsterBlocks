@@ -17,7 +17,8 @@ public class GameState_LineCheck : GameState
     }
     public override void CheckTransitions()
     {
-
+        if (_stateManager.GamePaused)
+            TransitionState(_stateFactory.StatePaused());
     }
 
     public override void CheckInput()
