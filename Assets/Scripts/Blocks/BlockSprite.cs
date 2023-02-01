@@ -14,19 +14,11 @@ public class BlockSprite : MonoBehaviour
     [field: SerializeField] private Image _blockEmptyImage;
     public Image BlockEmptyImage { get { return _blockEmptyImage; } }
 
-    public void ActivateBlock()
+    public void ToggleBlock(bool value)
     {
-        BlockImage.gameObject.SetActive(true);
-        BlockEyeImage.gameObject.SetActive(true);
-        BlockEmptyImage.gameObject.SetActive(false);
+        BlockImage.gameObject.SetActive(value);
+        BlockEyeImage.gameObject.SetActive(value);
+        BlockEmptyImage.gameObject.SetActive(!value);
     }
-
-    public void DeactivateBlock()
-    {
-        BlockImage.gameObject.SetActive(false);
-        BlockEyeImage.gameObject.SetActive(false);
-        BlockEmptyImage.gameObject.SetActive(true);
-    }
-
 
 }

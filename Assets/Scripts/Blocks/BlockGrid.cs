@@ -123,4 +123,9 @@ public class BlockGrid : MonoBehaviour
             }
         }
     }
+
+    public Block GetBlock(int column, int row)
+    {
+        return BlockColumns[column].Blocks[row];
+    }
 }

@@ -24,7 +24,7 @@ public class BlockFactory : MonoBehaviour
         GameObject blockObject = Instantiate(BlockPrefab, position, Quaternion.identity);
         blockObject.transform.SetParent(parent, false);
         Block block = blockObject.GetComponent<Block>();
-        block.BlockSprite.DeactivateBlock();
+        block.BlockSprite.ToggleBlock(false);
         block.BlockGrid = BlockGrid;
 
         return block;

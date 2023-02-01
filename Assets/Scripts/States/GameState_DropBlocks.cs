@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class GameState_DropBlocks : GameState
 {
-
-    private bool _blockDropped;
-    public bool BlockDropped { get { return _blockDropped; } set { _blockDropped = value; } }
-
     public GameState_DropBlocks(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid) : base(stateManager, gameStateFactory, blockGrid) { }
     public override void EnterState()
     {
-        _stateManager.BlocksInitialized = false;
+
     }
 
     public override void ExitState()
@@ -22,34 +18,48 @@ public class GameState_DropBlocks : GameState
     {
         if (_stateManager.GamePaused)
             TransitionState(_stateFactory.StatePaused());
+
+        if (_stateManager.GameLost)
+        {
+            _stateManager.GameLost = false;
+            TransitionState(_stateFactory.StateLostGame());
+        }
+
+        if (_stateManager.ShapePlaced)
+        {
+            _stateManager.ShapePlaced = false;
+            TransitionState(_stateFactory.StateLineCheck());
+        }
     }
 
     public override void CheckInput()
     {
-        // Check for player input to rotate the block
-
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             _stateManager.MenuManager.PauseGame();
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
             _blockGrid.BlockShapeController.MoveShapeDown();
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             _blockGrid.BlockShapeController.MoveShapeLeft();
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             _blockGrid.BlockShapeController.MoveShapeRight();
+
+        if (Input.GetKeyDown(KeyCode.E))
+            _blockGrid.BlockShapeController.RotateShapeClockwise();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            _blockGrid.BlockShapeController.RotateShapeCounterclockwise();
     }
     public override void UpdateState()
     {
-        if(!BlockDropped)
+        if(!_stateManager.ShapeCreated)
         {
-            BlockDropped = true;
-
-            // Spawn block
-          //  BlockGrid.spawn
+            Debug.Log("Creating shape");
+            // Spawn shape to be moved
+            _blockGrid.BlockShapeController.CreateNewShape();
         }
-
-        // Move block down
     }
+
 }

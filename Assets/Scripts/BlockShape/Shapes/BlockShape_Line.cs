@@ -19,6 +19,11 @@ public class BlockShape_Line : BlockShape
                 new BlockShapePosition(3, 2),
             },
         };
+    }
 
+
+    public override int GetPivotBlock()
+    {
+        return 0;
     }
 }

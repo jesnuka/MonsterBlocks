@@ -21,15 +21,13 @@ public abstract class BlockShape
 
     // Array of BlockPositions, for each block in the BlockShape
     // Used for moving and rotating the Blocks within the BlockShape
-    private List<BlockPosition> _blockPositions;
-    public List<BlockPosition> BlockPositions { get { return _blockPositions; } set { _blockPositions = value; } }
-    public void RotateClockwise()
+    // Blocks within the BlockShape are handled as separate blocks, except when rotating
+    private BlockPosition[] _blockPositions;
+    public BlockPosition[] BlockPositions { get { return _blockPositions; } set { _blockPositions = value; } }
+
+    public void RotateShape(int rotationDirection)
     {
-        CurrentRotation += 1;
-    }
-    public void RotateCounterclockwise()
-    {
-        CurrentRotation -= 1;
+        CurrentRotation += rotationDirection;
     }
 
     public BlockShape(BlockGrid blockGrid)
@@ -42,15 +40,71 @@ public abstract class BlockShape
 
     public abstract void CreateBlockShapePositions();
 
-    private BlockPosition GetBlockPosition(BlockPosition spawnPosition, BlockShapePosition blockShapePosition)
+    // Returns the index of the block of the specific shape that used as the pivot for rotating the shape
+    public abstract int GetPivotBlock();
+
+    private BlockPosition GetBlockPosition(BlockPosition blockPosition, BlockShapePosition blockShapePosition)
     {
         // Calculate the position of the block based on the BlockShapePosition
-        int column = spawnPosition.Column + blockShapePosition.X; 
-        int row = spawnPosition.Row + blockShapePosition.Y;
+        int column = blockPosition.Column + blockShapePosition.X; 
+        int row = blockPosition.Row + blockShapePosition.Y;
 
-        BlockPosition blockPosition = new BlockPosition(column, row);
+        if (column >= BlockGrid.ColumnAmount || row >= BlockGrid.RowAmount)
+            return null;
 
-        return blockPosition;
+        return new BlockPosition(column, row);
+    }
+    public BlockPosition[] GetRotatedBlockPositions(int rotationDirection)
+    {
+        // Get new direction
+        int newDirection = (CurrentRotation + rotationDirection) % 4;
+
+        // Get the shape of the blocks in the new direction
+        BlockShapePosition[] newShapePosition = BlockShapePositions[newDirection];
+
+        BlockPosition[] rotatedBlockPositions = new BlockPosition[BlockPositions.Length];
+
+        int pivotIndex = GetPivotBlock();
+
+        // Get BlockPosition of the rotated blocks based on the pivot Block index
+        for (int i = 0; i < rotatedBlockPositions.Length; i++)
+        {
+            if(i == pivotIndex)
+            {
+                // Keep the same position for the pivot Block
+                rotatedBlockPositions[i] = BlockPositions[i];
+            }
+
+            else
+            {
+                // For other blocks, calculate the new position based on the pivot Block
+
+                int column = BlockPositions[pivotIndex].Column + BlockShapePositions[newDirection][pivotIndex].X;
+                int row = BlockPositions[pivotIndex].Row + BlockShapePositions[newDirection][pivotIndex].Y;
+
+                if (column >= BlockGrid.ColumnAmount || row >= BlockGrid.RowAmount)
+                    return null;
+
+                rotatedBlockPositions[i] = new BlockPosition(column, row);
+            }
+        }
+
+        return rotatedBlockPositions;
+    }
+    public BlockPosition[] GetMovedBlockPositions(int xDirection, int yDirection)
+    {
+        BlockPosition[] movedBlockPositions = new BlockPosition[BlockPositions.Length];
+        for(int i = 0; i < BlockPositions.Length; i++)
+        {
+            int column = BlockPositions[i].Column + xDirection;
+            int row = BlockPositions[i].Row + yDirection;
+
+            if (column >= BlockGrid.ColumnAmount || row >= BlockGrid.RowAmount)
+                return null;
+
+            movedBlockPositions[i] = new BlockPosition(column, row);
+        }
+        return movedBlockPositions;
     }
 
     public void CreateBlockShape(BlockPosition spawnPosition)
@@ -58,16 +112,13 @@ public abstract class BlockShape
         if (BlockAmount <= 0)
             return;
 
-        BlockPositions = new List<BlockPosition>();
+        BlockPositions = new BlockPosition[BlockAmount];
 
         for (int i = 0; i < BlockAmount; i++)
-            BlockPositions.Add(GetBlockPosition(spawnPosition, BlockShapePositions[CurrentRotation][i]));
-
-
-
+            BlockPositions[i] = GetBlockPosition(spawnPosition, BlockShapePositions[CurrentRotation][i]);
     }
 
-    public BlockShapePosition[] ReturnCurrentBlocks()
+    public BlockShapePosition[] GetCurrentBlockShapePosition()
     {
         if (BlockShapePositions[CurrentRotation] == null)
             return null;

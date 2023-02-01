@@ -49,4 +49,9 @@ public class Block : MonoBehaviour
         return new Vector2(RectTransform.sizeDelta.x, RectTransform.sizeDelta.y);
     }
 
+    public void ToggleBlock(bool value)
+    {
+        BlockSprite.ToggleBlock(value);
+    }
+
 }

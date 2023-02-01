@@ -34,8 +34,17 @@ public class GameStateManager : MonoBehaviour
     private bool _gamePaused;
     public bool GamePaused { get { return _gamePaused; } set { _gamePaused = value; } }
 
+    private bool _gameLost;
+    public bool GameLost { get { return _gameLost; } set { _gameLost = value; } }
+
     private bool _blocksInitialized;
     public bool BlocksInitialized { get { return _blocksInitialized; } set { _blocksInitialized = value; } }
+
+    private bool _shapePlaced;
+    public bool ShapePlaced { get { return _shapePlaced; } set { _shapePlaced = value; } }
+
+    private bool _shapeCreated;
+    public bool ShapeCreated { get { return _shapeCreated; } set { _shapeCreated = value; } }
 
     private bool _returnedToMenu;
     public bool ReturnedToMenu { get { return _returnedToMenu; } set { _returnedToMenu = value; } }
@@ -68,6 +77,9 @@ public class GameStateManager : MonoBehaviour
         MenuManager.OnReturnToMenu += ReturnToMenu;
 
         BlockGrid.OnBlocksInitialized += InitializeBlocks;
+
+        BlockShapeController.OnBlockShapePlaced += PlaceShape;
+        BlockShapeController.OnBlockShapeCreated += CreateShape;
     }
 
     private void Initialize()
@@ -100,6 +112,11 @@ public class GameStateManager : MonoBehaviour
         ReturnedToMenu = true;
     }
 
+    private void LostGame()
+    {
+        GameLost = true;
+    }
+
     private void PauseGame()
     {
         GamePaused = true;
@@ -115,6 +132,14 @@ public class GameStateManager : MonoBehaviour
         Application.Quit();
     }
 
+    private void CreateShape()
+    {
+        ShapeCreated = true;
+    }
+    private void PlaceShape()
+    {
+        ShapePlaced = true;
+    }
     private void StartGame()
     {
         Debug.Log("started game");

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlockColumn : MonoBehaviour
 {
-    public Block[] _blocks;
+    private Block[] _blocks;
     public Block[] Blocks { get { return _blocks; } set { _blocks = value; } }
 
     ~BlockColumn()

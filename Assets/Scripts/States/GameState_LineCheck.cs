@@ -23,7 +23,8 @@ public class GameState_LineCheck : GameState
 
     public override void CheckInput()
     {
-
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+            _stateManager.MenuManager.PauseGame();
     }
 
     public override void UpdateState()
