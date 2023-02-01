@@ -27,6 +27,18 @@ public class GameState_DropBlocks : GameState
     public override void CheckInput()
     {
         // Check for player input to rotate the block
+
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+            _stateManager.MenuManager.PauseGame();
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            _blockGrid.BlockShapeController.MoveShapeDown();
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            _blockGrid.BlockShapeController.MoveShapeLeft();
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            _blockGrid.BlockShapeController.MoveShapeRight();
     }
     public override void UpdateState()
     {
@@ -35,6 +47,7 @@ public class GameState_DropBlocks : GameState
             BlockDropped = true;
 
             // Spawn block
+          //  BlockGrid.spawn
         }
 
         // Move block down

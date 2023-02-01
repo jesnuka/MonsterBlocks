@@ -12,6 +12,9 @@ public class GameStateManager : MonoBehaviour
     [field: SerializeField] private BlockShapeController _blockController;
     public BlockShapeController BlockController { get { return _blockController; } }
 
+    [field: SerializeField] private MenuManager _menuManager;
+    public MenuManager MenuManager { get { return _menuManager; } }
+
     /* [Header("States")]
      [SerializeField] static GameState_Menu gameState_Menu;
      [SerializeField] static GameState_Paused gameState_Paused;

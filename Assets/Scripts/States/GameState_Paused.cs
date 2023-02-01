@@ -14,6 +14,7 @@ public class GameState_Paused : GameState
     public override void ExitState()
     {
     }
+
     public override void CheckTransitions()
     {
         if (!_stateManager.GamePaused)
@@ -31,7 +32,8 @@ public class GameState_Paused : GameState
 
     public override void CheckInput()
     {
-
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+            _stateManager.MenuManager.UnpauseGame();
     }
     public override void UpdateState()
     {

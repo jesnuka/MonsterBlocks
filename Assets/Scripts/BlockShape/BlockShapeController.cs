@@ -21,16 +21,11 @@ public class BlockShapeController
     public static event Action OnBlockShapeCreated;
     public static event Action OnBlockShapePlaced;
 
-    public BlockShapeController(BlockGrid blockGrid)
+    public BlockShapeController(BlockGrid blockGrid, BlockFactory blockFactory)
     {
         BlockGrid = blockGrid;
-        CreateBlockFactory();
+        BlockFactory = blockFactory;
         CreateBlockShapeFactory();
-    }
-
-    private void CreateBlockFactory()
-    {
-        BlockFactory = new BlockFactory(BlockGrid);
     }
     private void CreateBlockShapeFactory()
     {
@@ -40,9 +35,6 @@ public class BlockShapeController
     public void CreateNewShape()
     {
         // Create new shape of blocks to be moved down
-
-        if (BlockFactory == null)
-            CreateBlockFactory();
 
         if (BlockShapeFactory == null)
             CreateBlockShapeFactory();
@@ -81,17 +73,19 @@ public class BlockShapeController
     #region Movement & Rotation
     public void MoveShapeDown()
     {
-
+        Debug.Log("Down");
     }
 
     public void MoveShapeLeft()
     {
 
+        Debug.Log("Left");
     }
 
     public void MoveShapeRight()
     {
 
+        Debug.Log("Right");
     }
     public void RotateShapeClockwise()
     {

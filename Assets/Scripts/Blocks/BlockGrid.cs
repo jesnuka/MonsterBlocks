@@ -18,6 +18,9 @@ public class BlockGrid : MonoBehaviour
     [SerializeField] private BlockFactory _blockFactory;
     public BlockFactory BlockFactory { get { return _blockFactory; } }
 
+    [SerializeField] private BlockShapeController _blockShapeController;
+    public BlockShapeController BlockShapeController { get { return _blockShapeController; } set { _blockShapeController = value; } }
+
     [Header("UI Elements")]
     [Tooltip("Contains the block columns, which contain blocks")]
     [SerializeField] private RectTransform _blockGridObject;
@@ -45,8 +48,8 @@ public class BlockGrid : MonoBehaviour
 
     public void SetupGrid()
     {
-        // TODO: after returning to menu, then going back to game, this is broken. Needs to be reset, but shouldnt still happen, whats wrong?
-        // TODO FIX, Building of grid is completely wrong (Too little in column etc!!!)
+        if(BlockShapeController == null)
+            BlockShapeController = new BlockShapeController(this, BlockFactory);
 
         // Align game board according to the size
         BlockGridObject.offsetMax = new Vector2(
@@ -100,20 +103,14 @@ public class BlockGrid : MonoBehaviour
     private void CreateBlocks()
     {
         // Create each column and occupy them with empty blocks up to row amount
-        Debug.Log("BEFBlockColumns size first: " + BlockColumns.Length);
-        Debug.Log("ColumnAmount is " + ColumnAmount);
         BlockColumns = new BlockColumn[ColumnAmount];
-        Debug.Log("BEFBlockColumns size then: " + BlockColumns.Length);
-        Debug.Log("BEFBlockColumns size then: " + BlockColumns.Length);
 
         for (int x = 0; x < ColumnAmount; x++)
         {
             // Create a column that contains empty blocks
             Vector3 columnPos = new Vector3(x * BlockFactory.GetBlockPrefabSize().x, 0.0f, 0.0f);
             BlockColumn blockColumn = BlockFactory.CreateColumn(RowAmount, columnPos, BlockGridObject.transform);
-            Debug.Log("BlockColumns size first: " + BlockColumns.Length);
             BlockColumns[x] = blockColumn;
-            Debug.Log("BlockColumns size then: " + BlockColumns.Length);
 
             for (int y = 0; y < RowAmount; y++)
             {
