@@ -70,7 +70,7 @@ public class GameStateManager : MonoBehaviour
     private void Initialize()
     {
         // Setup the state machine
-        _states = new GameStateFactory(this);
+        _states = new GameStateFactory(this, BlockGrid);
 
         CurrentState = _states.StateMenu();
         CurrentState.EnterState();

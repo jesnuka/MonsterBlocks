@@ -6,10 +6,12 @@ public abstract class GameState
 {
     protected GameStateManager _stateManager;
     protected GameStateFactory _stateFactory;
-    public GameState(GameStateManager stateManager, GameStateFactory gameStateFactory)
+    protected BlockGrid _blockGrid;
+    public GameState(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid)
     {
         _stateManager = stateManager;
         _stateFactory = gameStateFactory;
+        _blockGrid = blockGrid;
     }
     public abstract void EnterState();
     public abstract void ExitState();

@@ -13,53 +13,67 @@ public class BlockGrid : MonoBehaviour
     public GameStateManager GameStateManager { get { return _gameStateManager; } }
 
     [SerializeField] private GameSettings _gameSettings;
-    public GameSettings GameSettings { get { return _gameSettings; } }
+    public GameSettings GameSettings { get { return _gameSettings; } set { _gameSettings = value; } }
 
     [SerializeField] private BlockFactory _blockFactory;
     public BlockFactory BlockFactory { get { return _blockFactory; } }
 
     [Header("UI Elements")]
     [Tooltip("Contains the block columns, which contain blocks")]
-    [SerializeField] private GameObject _blockGridObject;
-    public GameObject BlockGridObject { get { return _blockGridObject; } }
+    [SerializeField] private RectTransform _blockGridObject;
+    public RectTransform BlockGridObject { get { return _blockGridObject; } }
 
-    [SerializeField] private GameObject _blockGridBackground;
-    public GameObject BlockGridBackground { get { return _blockGridBackground; } }
+    [SerializeField] private RectTransform _blockGridBackground;
+    public RectTransform BlockGridBackground { get { return _blockGridBackground; } }
 
     [Header("Game Related")]
 
-    private BlockColumn[] _blockColumns;
+    [field:SerializeField] private BlockColumn[] _blockColumns;
     public BlockColumn[] BlockColumns { get { return _blockColumns; } set { _blockColumns = value; } }
-
-    private int _columnAmount;
-    public int ColumnAmount { get { return _columnAmount; } set { if (_columnAmount > 4) _columnAmount = value; else _columnAmount = 4; } }
-
-    private int _rowAmount;
-    public int RowAmount { get { return _rowAmount; } set { if (_rowAmount > 4) _rowAmount = value; else _rowAmount = 4; } }
+    public int ColumnAmount { get { return GameSettings.CurrentColumnAmount; }}
+    public int RowAmount { get { return GameSettings.CurrentRowAmount; }}
 
     // The BlockPosition within the BlockGrid where to spawn BlockShapes
     private BlockPosition _spawnPosition;
     public BlockPosition SpawnPosition { get { return _spawnPosition; } set { _spawnPosition = value; } }
 
+    private void Start()
+    {
+        GameSettings.OnGameSettingsChanged += ChangeGameSettings;
+        MenuManager.OnReturnToMenu += ResetGrid;
+    }
+
     public void SetupGrid()
     {
-        ColumnAmount = Mathf.Clamp(GameSettings.CurrentColumnAmount, 1, GameSettings.MaxColumnAmount);
-        RowAmount = Mathf.Clamp(GameSettings.CurrentRowAmount, 1, GameSettings.MaxRowAmount);
+        // TODO: after returning to menu, then going back to game, this is broken. Needs to be reset, but shouldnt still happen, whats wrong?
+        // TODO FIX, Building of grid is completely wrong (Too little in column etc!!!)
 
-        Debug.Log("Size y: " + BlockGridObject.GetComponent<RectTransform>().sizeDelta.y);
         // Align game board according to the size
-        BlockGridObject.GetComponent<RectTransform>().offsetMax = new Vector2(
-        BlockGridObject.GetComponent<RectTransform>().offsetMax.x,
-        BlockGridObject.GetComponent<RectTransform>().offsetMax.y - ((RowAmount - 1) * BlockFactory.GetBlockPrefabSize().y));
+        BlockGridObject.offsetMax = new Vector2(
+        BlockGridObject.offsetMax.x,
+        -((RowAmount - 1) * BlockFactory.GetBlockPrefabSize().y));
 
         // Aligh background 
-        int odd = ColumnAmount % 2;
-        BlockGridBackground.GetComponent<RectTransform>().sizeDelta = new Vector2(
-            (ColumnAmount) * BlockFactory.GetBlockPrefabSize().x - (odd * BlockFactory.GetBlockPrefabSize().x),
-            BlockGridBackground.GetComponent<RectTransform>().sizeDelta.y);
+        BlockGridBackground.sizeDelta = 
+            new Vector2
+            (
+                (ColumnAmount) * BlockFactory.GetBlockPrefabSize().x,
+                (RowAmount) * BlockFactory.GetBlockPrefabSize().y
+            );
 
-        CreateSpawnPosition(odd);
+        CreateSpawnPosition(ColumnAmount % 2);
 
+    }
+
+    private void ChangeGameSettings(GameSettings gameSettings)
+    {
+        GameSettings = gameSettings;
+    }
+
+    private void ResetGrid()
+    {
+        foreach (BlockColumn blockColumn in BlockColumns)
+            Destroy(blockColumn.gameObject);
     }
 
     private void CreateSpawnPosition(int odd)
@@ -75,11 +89,6 @@ public class BlockGrid : MonoBehaviour
         SpawnPosition = new BlockPosition(column, 0);
     }
 
-    public void ResetBoard()
-    {
-
-    }
-
     public void CreateBlockGrid()
     {
         SetupGrid();
@@ -91,14 +100,20 @@ public class BlockGrid : MonoBehaviour
     private void CreateBlocks()
     {
         // Create each column and occupy them with empty blocks up to row amount
+        Debug.Log("BEFBlockColumns size first: " + BlockColumns.Length);
+        Debug.Log("ColumnAmount is " + ColumnAmount);
         BlockColumns = new BlockColumn[ColumnAmount];
+        Debug.Log("BEFBlockColumns size then: " + BlockColumns.Length);
+        Debug.Log("BEFBlockColumns size then: " + BlockColumns.Length);
 
         for (int x = 0; x < ColumnAmount; x++)
         {
             // Create a column that contains empty blocks
             Vector3 columnPos = new Vector3(x * BlockFactory.GetBlockPrefabSize().x, 0.0f, 0.0f);
             BlockColumn blockColumn = BlockFactory.CreateColumn(RowAmount, columnPos, BlockGridObject.transform);
+            Debug.Log("BlockColumns size first: " + BlockColumns.Length);
             BlockColumns[x] = blockColumn;
+            Debug.Log("BlockColumns size then: " + BlockColumns.Length);
 
             for (int y = 0; y < RowAmount; y++)
             {

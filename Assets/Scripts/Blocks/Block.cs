@@ -16,6 +16,11 @@ public class Block : MonoBehaviour
     [field:SerializeField] private BlockSprite _blockSprite;
     public BlockSprite BlockSprite { get { return _blockSprite; }}
 
+    ~Block()
+    {
+
+    }
+
     public void SwapTiles(Block other)
     {
         // Swap the places of two blocks

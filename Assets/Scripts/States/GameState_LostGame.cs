@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameState_LostGame : GameState
 {
-    public GameState_LostGame(GameStateManager stateManager, GameStateFactory gameStateFactory) : base(stateManager, gameStateFactory) { }
+    public GameState_LostGame(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid) : base(stateManager, gameStateFactory, blockGrid) { }
     public override void EnterState()
     {
 

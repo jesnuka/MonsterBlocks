@@ -8,7 +8,7 @@ public class GameState_DropBlocks : GameState
     private bool _blockDropped;
     public bool BlockDropped { get { return _blockDropped; } set { _blockDropped = value; } }
 
-    public GameState_DropBlocks(GameStateManager stateManager, GameStateFactory gameStateFactory) : base(stateManager, gameStateFactory) { }
+    public GameState_DropBlocks(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid) : base(stateManager, gameStateFactory, blockGrid) { }
     public override void EnterState()
     {
         _stateManager.BlocksInitialized = false;
