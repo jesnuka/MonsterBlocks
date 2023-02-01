@@ -14,7 +14,10 @@ public class Block : MonoBehaviour
     public RectTransform RectTransform { get { return _rectTransform; } }
 
     [field:SerializeField] private BlockSprite _blockSprite;
-    public BlockSprite BlockSprite { get { return _blockSprite; }}
+    public BlockSprite BlockSprite { get { return _blockSprite; } }
+
+    private bool _isEnabled;
+    public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; } }
 
     ~Block()
     {
@@ -51,6 +54,7 @@ public class Block : MonoBehaviour
 
     public void ToggleBlock(bool value)
     {
+        IsEnabled = value;
         BlockSprite.ToggleBlock(value);
     }
 

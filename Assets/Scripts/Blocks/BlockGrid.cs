@@ -126,6 +126,9 @@ public class BlockGrid : MonoBehaviour
 
     public Block GetBlock(int column, int row)
     {
-        return BlockColumns[column].Blocks[row];
+        if (column < ColumnAmount && column >= 0 && row < RowAmount && row >= 0)
+            return BlockColumns[column].Blocks[row];
+        else
+            return null;
     }
 }

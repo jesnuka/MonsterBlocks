@@ -82,7 +82,7 @@ public abstract class BlockShape
                 int column = BlockPositions[pivotIndex].Column + BlockShapePositions[newDirection][pivotIndex].X;
                 int row = BlockPositions[pivotIndex].Row + BlockShapePositions[newDirection][pivotIndex].Y;
 
-                if (column >= BlockGrid.ColumnAmount || row >= BlockGrid.RowAmount)
+                if (column >= BlockGrid.ColumnAmount || column < 0 || row >= BlockGrid.RowAmount || row < 0)
                     return null;
 
                 rotatedBlockPositions[i] = new BlockPosition(column, row);
@@ -99,7 +99,7 @@ public abstract class BlockShape
             int column = BlockPositions[i].Column + xDirection;
             int row = BlockPositions[i].Row + yDirection;
 
-            if (column >= BlockGrid.ColumnAmount || row >= BlockGrid.RowAmount)
+            if (column >= BlockGrid.ColumnAmount || column < 0 || row >= BlockGrid.RowAmount || row < 0)
                 return null;
 
             movedBlockPositions[i] = new BlockPosition(column, row);

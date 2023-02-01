@@ -24,6 +24,9 @@ public class BlockShapeController
     public static event Action OnBlockShapeCreated;
     public static event Action OnBlockShapePlaced;
 
+    private bool _blockShapeCreated;
+    public bool BlockShapeCreated { get { return _blockShapeCreated; } set { _blockShapeCreated = value; } }
+
     public BlockShapeController(BlockGrid blockGrid, BlockFactory blockFactory)
     {
         BlockGrid = blockGrid;
@@ -37,37 +40,15 @@ public class BlockShapeController
 
     public void CreateNewShape()
     {
-        if (CurrentBlockShape != null)
-        {
-            // Store old shape temporarily
-            PreviousBlockShape = CurrentBlockShape;
-            ToggleShapeBlocks(PreviousBlockShape, false);
-        }
-
         // Create new shape of blocks to be moved down
         if (BlockShapeFactory == null)
             CreateBlockShapeFactory();
 
         CurrentBlockShape = BlockShapeFactory.CreateBlockShape();
 
-        // TODO: Remove duplicate code from this and MoveShape!
+        MoveShape(0,0);
 
-        // TODO: check here for initial BlockShape collision!
-        bool canSpawn = CheckSpawnCollision(CurrentBlockShape);
-
-        if(!canSpawn)
-        {
-            CurrentBlockShape = PreviousBlockShape;
-        }
-
-        Debug.Log("disabling old shape");
-        //Disable old shape
-        //ToggleShapeBlocks(CurrentBlockShape, false);
-
-        Debug.Log("enabling new shape");
-        // Enable the blocks next
-        ToggleShapeBlocks(CurrentBlockShape, true);
-
+        BlockShapeCreated = true;
         OnBlockShapeCreated?.Invoke();
     }
 
@@ -101,14 +82,18 @@ public class BlockShapeController
         return true;
     }
 
-    private bool CheckCollision(BlockPosition blockShape)
+    private bool CheckCollision(BlockPosition blockPosition)
     {
-        // Called when Moving or Rotating BlockShapes
-        // Check if blocks already exist in BlockShape positions
-        // If they do, movement and rotation can't be done
-        // TODO: Add checks for rotation (Can't be rotated) and movement sideways (Can't be moved)
+        // Check if block already exist in the BlockShape position, or the position is out of bounds
 
-        return true;
+        if (BlockGrid.GetBlock(blockPosition.Column, blockPosition.Row).IsEnabled ||
+            blockPosition.Column >= BlockGrid.ColumnAmount ||
+            blockPosition.Row >= BlockGrid.RowAmount ||
+            blockPosition.Row < 0 ||
+            blockPosition.Column < 0)
+            return false;
+        else
+            return true;
     }
 
     private void CheckStopCollision(BlockShape blockShape)
@@ -139,35 +124,41 @@ public class BlockShapeController
 
     private void MoveShape(int xDirection, int yDirection)
     {
-        if (CurrentBlockShape != null)
+        // Store previous shape
+        if (CurrentBlockShape != null && BlockShapeCreated)
         {
-            // Store previous shape temporarily
             PreviousBlockShape = CurrentBlockShape;
+            //Disable previous shape
             ToggleShapeBlocks(PreviousBlockShape, false);
         }
+
         BlockPosition[] newPositions = CurrentBlockShape.GetMovedBlockPositions(xDirection, yDirection);
 
         if (newPositions == null)
+        {
+            // Toggle back previous shape
+            ToggleShapeBlocks(PreviousBlockShape, true);
             return;
+        }
 
         bool canMove = true;
         foreach(BlockPosition blockPosition in newPositions)
             canMove = CheckCollision(blockPosition);
 
         if (!canMove)
+        {
+            // Toggle back previous shape
+            ToggleShapeBlocks(PreviousBlockShape, true);
             return;
+        }
+
 
         CurrentBlockShape.BlockPositions = newPositions;
-        Debug.Log("Old shape posRow: " + PreviousBlockShape.BlockPositions[0].Row);
-        Debug.Log("New shape posRow: " + CurrentBlockShape.BlockPositions[0].Row);
+        Debug.Log("Removing old");
 
-        //Disable previous shape
-        ToggleShapeBlocks(PreviousBlockShape, false);
-
+        Debug.Log("adding new");
         // Enable the blocks next
         ToggleShapeBlocks(CurrentBlockShape, true);
-
-        OnBlockShapeCreated?.Invoke();
     }
 
     public void RotateShapeClockwise()
