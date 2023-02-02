@@ -13,10 +13,10 @@ public class BlockShape_Line : BlockShape
         {
             new BlockShapePosition[]
             {
-                new BlockShapePosition(0, 2),
-                new BlockShapePosition(1, 2),
-                new BlockShapePosition(2, 2),
-                new BlockShapePosition(3, 2),
+                new BlockShapePosition(0, 3),
+                new BlockShapePosition(1, 3),
+                new BlockShapePosition(2, 3),
+                new BlockShapePosition(3, 3),
             },
         };
     }

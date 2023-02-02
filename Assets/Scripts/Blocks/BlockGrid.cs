@@ -21,6 +21,9 @@ public class BlockGrid : MonoBehaviour
     [SerializeField] private BlockShapeController _blockShapeController;
     public BlockShapeController BlockShapeController { get { return _blockShapeController; } }
 
+    [SerializeField] private BlockLineChecker _blockLineChecker;
+    public BlockLineChecker BlockLineChecker { get { return _blockLineChecker; } set { _blockLineChecker = value; } }
+
     [Header("UI Elements")]
     [Tooltip("Contains the block columns, which contain blocks")]
     [SerializeField] private RectTransform _blockGridObject;
@@ -49,6 +52,9 @@ public class BlockGrid : MonoBehaviour
     public void SetupGrid()
     {
         BlockShapeController.SetupController(this, BlockFactory);
+
+        if (BlockLineChecker == null)
+            BlockLineChecker = new BlockLineChecker(this);
 
         // Align game board according to the size
         BlockGridObject.offsetMax = new Vector2(
@@ -85,8 +91,8 @@ public class BlockGrid : MonoBehaviour
         if (column < 0)
             column = 0;
         Debug.Log("Row Amount: " + RowAmount);
-        // Spawn position is at the top of the grid, but offset by 2 because of the size of BlockShapes
-        SpawnPosition = new BlockPosition(column, RowAmount-3);
+        // Spawn position is at the top of the grid, but offset by the size of BlockShapes
+        SpawnPosition = new BlockPosition(column, RowAmount-4);
         Debug.Log("SpawnPosition: " + SpawnPosition);
     }
 

@@ -46,6 +46,12 @@ public class GameStateManager : MonoBehaviour
     private bool _shapeCreated;
     public bool ShapeCreated { get { return _shapeCreated; } set { _shapeCreated = value; } }
 
+    private bool _linesChecked;
+    public bool LinesChecked { get { return _linesChecked; } set { _linesChecked = value; } }
+
+    private bool _linesCheckStarted;
+    public bool LinesCheckStarted { get { return _linesCheckStarted; } set { _linesCheckStarted = value; } }
+
     private bool _returnedToMenu;
     public bool ReturnedToMenu { get { return _returnedToMenu; } set { _returnedToMenu = value; } }
 
@@ -80,6 +86,9 @@ public class GameStateManager : MonoBehaviour
 
         BlockShapeController.OnBlockShapePlaced += PlaceShape;
         BlockShapeController.OnBlockShapeCreated += CreateShape;
+
+        BlockLineChecker.OnLinesChecked += LineCheck;
+        BlockLineChecker.OnLineCheckStarted += LineCheckStart;
     }
 
     private void Initialize()
@@ -136,9 +145,18 @@ public class GameStateManager : MonoBehaviour
     {
         ShapeCreated = true;
     }
+
     private void PlaceShape()
     {
         ShapePlaced = true;
+    }
+    private void LineCheckStart()
+    {
+        LinesCheckStarted = true;
+    }
+    private void LineCheck(int blockCount)
+    {
+        LinesChecked = true;
     }
     private void StartGame()
     {

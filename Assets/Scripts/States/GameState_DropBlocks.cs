@@ -7,7 +7,11 @@ public class GameState_DropBlocks : GameState
     public GameState_DropBlocks(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid) : base(stateManager, gameStateFactory, blockGrid) { }
     public override void EnterState()
     {
-
+        // Spawn shape to be moved
+        if(!_stateManager.ShapeCreated)
+        {
+            _blockGrid.BlockShapeController.CreateNewShape();
+        }
     }
 
     public override void ExitState()
@@ -27,6 +31,7 @@ public class GameState_DropBlocks : GameState
 
         if (_stateManager.ShapePlaced)
         {
+            _stateManager.ShapeCreated = false;
             _stateManager.ShapePlaced = false;
             TransitionState(_stateFactory.StateLineCheck());
         }
@@ -54,14 +59,14 @@ public class GameState_DropBlocks : GameState
     }
     public override void UpdateState()
     {
-        if(!_stateManager.ShapeCreated)
+     /*   if(!_stateManager.ShapeCreated)
         {
-            // Spawn shape to be moved
             _blockGrid.BlockShapeController.CreateNewShape();
-        }
+        }*/
 
         // Move shape down every so often
-        _blockGrid.BlockShapeController.StartBlockTimedMovement();
+        if(!_blockGrid.BlockShapeController.BlockMoveStarted)
+            _blockGrid.BlockShapeController.StartBlockTimedMovement();
     }
 
 }

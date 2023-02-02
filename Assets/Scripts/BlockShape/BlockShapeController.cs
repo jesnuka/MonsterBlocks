@@ -74,19 +74,8 @@ public class BlockShapeController : MonoBehaviour
     {
         // TODO:
         // Add locking of block to place
-
+        BlockShapeCreated = false;
         OnBlockShapePlaced?.Invoke();
-    }
-
-    private bool CheckSpawnCollision(BlockShape blockShape)
-    {
-        // Called when spawning BlockShapes
-        // Check if blocks already exist in BlockShape positions
-        // if they do, game ends
-
-        // TODO: Not necessary, call CheckCollision
-
-        return true;
     }
 
     public void StartBlockTimedMovement()
@@ -121,24 +110,11 @@ public class BlockShapeController : MonoBehaviour
         return true;
     }
 
-    private void CheckStopCollision(BlockShape blockShape)
-    {
-        // Called each time BlockShape is moved down
-        // Check if blocks already exist in BlockShape positions
-        // If they do, lock the BlockShape in place
-
-        // TODO: Not necessary, remove and call CheckCollision + PlaceShape from elsewhere
-    }
-
     #region Movement & Rotation
     public void MoveShapeDown()
     {
         if(!MoveShape(0, -1))
-        {
-            // TODO: Lock shape 
-            OnBlockShapePlaced?.Invoke();
-            Debug.Log("Locked shape");
-        }
+            PlaceShape();
     }
 
     public void MoveShapeLeft()
@@ -154,7 +130,6 @@ public class BlockShapeController : MonoBehaviour
 
     private bool MoveShape(int xDirection, int yDirection)
     {
-
         // Store previous shape
         if (CurrentBlockShape != null && BlockShapeCreated)
         {
