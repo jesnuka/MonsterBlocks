@@ -9,8 +9,8 @@ public class GameStateManager : MonoBehaviour
     [field:SerializeField] private BlockGrid _blockGrid;
     public BlockGrid BlockGrid { get { return _blockGrid; } }
 
-    [field: SerializeField] private BlockShapeController _blockController;
-    public BlockShapeController BlockController { get { return _blockController; } }
+    [field: SerializeField] private BlockShapeController _blockShapeController;
+    public BlockShapeController BlockShapeController { get { return _blockShapeController; } }
 
     [field: SerializeField] private MenuManager _menuManager;
     public MenuManager MenuManager { get { return _menuManager; } }

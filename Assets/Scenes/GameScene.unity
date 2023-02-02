@@ -1626,6 +1626,7 @@ MonoBehaviour:
   _currentColumnAmount: 8
   _maxRowAmount: 16
   _currentRowAmount: 16
+  _blockSpeed: 1
 --- !u!1 &585034712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2626,6 +2627,7 @@ GameObject:
   - component: {fileID: 947726776}
   - component: {fileID: 947726778}
   - component: {fileID: 947726779}
+  - component: {fileID: 947726780}
   m_Layer: 0
   m_Name: GameplayManager
   m_TagString: Untagged
@@ -2646,6 +2648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blockGrid: {fileID: 947726778}
+  _blockShapeController: {fileID: 947726780}
   _menuManager: {fileID: 122658979}
 --- !u!4 &947726777
 Transform:
@@ -2677,6 +2680,7 @@ MonoBehaviour:
   _gameStateManager: {fileID: 947726776}
   _gameSettings: {fileID: 583065171}
   _blockFactory: {fileID: 947726779}
+  _blockShapeController: {fileID: 947726780}
   _blockGridObject: {fileID: 180523485}
   _blockGridBackground: {fileID: 1021489976}
   _blockColumns: []
@@ -2694,6 +2698,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _columnPrefab: {fileID: 5676621818257578759, guid: 55eb442ebb17f1f4e84862d416256e18, type: 3}
   _blockPrefab: {fileID: 734389613959894906, guid: 60d71c07b5ff71d4e8f015b55482f408, type: 3}
+--- !u!114 &947726780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947726775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e47817fb578cda448a6ea2be8bffc294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

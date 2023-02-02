@@ -33,7 +33,6 @@ public abstract class BlockShape
     public BlockShape(BlockGrid blockGrid)
     {
         BlockGrid = blockGrid;
-        Debug.Log("Constructed a BLOCKSHAPE");
         CreateBlockShapePositions();
         CreateBlockShape(BlockGrid.SpawnPosition);
     }
@@ -96,6 +95,7 @@ public abstract class BlockShape
         BlockPosition[] movedBlockPositions = new BlockPosition[BlockPositions.Length];
         for(int i = 0; i < BlockPositions.Length; i++)
         {
+            // kutsutaan ennen kuin gridi luotu?
             int column = BlockPositions[i].Column + xDirection;
             int row = BlockPositions[i].Row + yDirection;
 

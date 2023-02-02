@@ -56,10 +56,12 @@ public class GameState_DropBlocks : GameState
     {
         if(!_stateManager.ShapeCreated)
         {
-            Debug.Log("Creating shape");
             // Spawn shape to be moved
             _blockGrid.BlockShapeController.CreateNewShape();
         }
+
+        // Move shape down every so often
+        _blockGrid.BlockShapeController.StartBlockTimedMovement();
     }
 
 }

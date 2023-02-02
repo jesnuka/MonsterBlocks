@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockShapeController
+public class BlockShapeController : MonoBehaviour
 {
 
     private BlockGrid _blockGrid;
@@ -27,7 +27,14 @@ public class BlockShapeController
     private bool _blockShapeCreated;
     public bool BlockShapeCreated { get { return _blockShapeCreated; } set { _blockShapeCreated = value; } }
 
-    public BlockShapeController(BlockGrid blockGrid, BlockFactory blockFactory)
+    // Used to check when to initiate a new block MoveDown sequence
+    private bool _blockMoveStarted;
+    public bool BlockMoveStarted { get { return _blockMoveStarted; } set { _blockMoveStarted = value; } }
+
+    private bool _blockShapePlaced;
+    public bool BlockShapePlaced { get { return _blockShapePlaced; } set { _blockShapePlaced = value; } }
+
+    public void SetupController(BlockGrid blockGrid, BlockFactory blockFactory)
     {
         BlockGrid = blockGrid;
         BlockFactory = blockFactory;
@@ -82,6 +89,23 @@ public class BlockShapeController
         return true;
     }
 
+    public void StartBlockTimedMovement()
+    {
+        // Start block moving down by BlockSpeed time
+        if(!BlockMoveStarted)
+            StartCoroutine(DropBlock());
+    }
+
+    private IEnumerator DropBlock()
+    {
+        BlockMoveStarted = true;
+        yield return new WaitForSeconds(BlockGrid.GameSettings.BlockSpeed);
+        if (!BlockShapePlaced)
+            MoveShapeDown();
+        BlockMoveStarted = false;
+
+    }
+
     private bool CheckCollision(BlockPosition[] newPositions)
     {
         // Check if block already exist in the BlockShape position, or the position is out of bounds
@@ -130,6 +154,7 @@ public class BlockShapeController
 
     private bool MoveShape(int xDirection, int yDirection)
     {
+
         // Store previous shape
         if (CurrentBlockShape != null && BlockShapeCreated)
         {

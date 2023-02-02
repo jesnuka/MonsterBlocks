@@ -25,6 +25,17 @@ public class GameSettings: MonoBehaviour
             if(value <= MaxRowAmount && value > 4) _currentRowAmount = value; 
             else _currentRowAmount = 4; } }
 
+    [field: SerializeField] private float _blockSpeed;
+    public float BlockSpeed
+    {
+        get { return _blockSpeed; }
+        set
+        {
+            if (value > 0.1f) _blockSpeed = value;
+            else _blockSpeed = 0.1f;
+        }
+    }
+
     public static event Action<GameSettings> OnGameSettingsChanged;
     public void EnableGameSettings()
     {

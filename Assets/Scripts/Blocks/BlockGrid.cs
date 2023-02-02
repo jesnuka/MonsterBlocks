@@ -19,7 +19,7 @@ public class BlockGrid : MonoBehaviour
     public BlockFactory BlockFactory { get { return _blockFactory; } }
 
     [SerializeField] private BlockShapeController _blockShapeController;
-    public BlockShapeController BlockShapeController { get { return _blockShapeController; } set { _blockShapeController = value; } }
+    public BlockShapeController BlockShapeController { get { return _blockShapeController; } }
 
     [Header("UI Elements")]
     [Tooltip("Contains the block columns, which contain blocks")]
@@ -48,8 +48,7 @@ public class BlockGrid : MonoBehaviour
 
     public void SetupGrid()
     {
-        if(BlockShapeController == null)
-            BlockShapeController = new BlockShapeController(this, BlockFactory);
+        BlockShapeController.SetupController(this, BlockFactory);
 
         // Align game board according to the size
         BlockGridObject.offsetMax = new Vector2(
@@ -81,15 +80,14 @@ public class BlockGrid : MonoBehaviour
 
     private void CreateSpawnPosition(int odd)
     {
-        if (ColumnAmount <= 0)
-            return;
-
         int column = (ColumnAmount / 2) - 2;
 
         if (column < 0)
             column = 0;
-
-        SpawnPosition = new BlockPosition(column, 0);
+        Debug.Log("Row Amount: " + RowAmount);
+        // Spawn position is at the top of the grid, but offset by 2 because of the size of BlockShapes
+        SpawnPosition = new BlockPosition(column, RowAmount-3);
+        Debug.Log("SpawnPosition: " + SpawnPosition);
     }
 
     public void CreateBlockGrid()
