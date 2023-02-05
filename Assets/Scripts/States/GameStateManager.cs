@@ -52,6 +52,12 @@ public class GameStateManager : MonoBehaviour
     private bool _linesCheckStarted;
     public bool LinesCheckStarted { get { return _linesCheckStarted; } set { _linesCheckStarted = value; } }
 
+    private bool _linesCleared;
+    public bool LinesCleared { get { return _linesCleared; } set { _linesCleared = value; } }
+
+    private bool _blocksDropped;
+    public bool BlocksDropped { get { return _blocksDropped; } set { _blocksDropped = value; } }
+
     private bool _returnedToMenu;
     public bool ReturnedToMenu { get { return _returnedToMenu; } set { _returnedToMenu = value; } }
 
@@ -89,6 +95,7 @@ public class GameStateManager : MonoBehaviour
 
         BlockLineChecker.OnLinesChecked += LineCheck;
         BlockLineChecker.OnLineCheckStarted += LineCheckStart;
+        BlockLineChecker.onLinesCleared += AllLinesCleared;
     }
 
     private void Initialize()
@@ -157,6 +164,10 @@ public class GameStateManager : MonoBehaviour
     private void LineCheck(int blockCount)
     {
         LinesChecked = true;
+    }
+    private void AllLinesCleared(int lineCount)
+    {
+        LinesCleared = true;
     }
     private void StartGame()
     {

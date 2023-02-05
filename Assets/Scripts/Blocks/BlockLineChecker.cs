@@ -8,6 +8,7 @@ public class BlockLineChecker
 
     public static event Action<int> OnLinesChecked;
     public static event Action OnLineCheckStarted;
+    public static event Action<int> onLinesCleared;
 
     private BlockGrid _blockGrid;
     public BlockGrid BlockGrid { get { return _blockGrid; } set { _blockGrid = value; } }
@@ -39,20 +40,42 @@ public class BlockLineChecker
             List<Block> blockLine = new List<Block>();
 
             blockLine.Add(BlockGrid.BlockColumns[position.Column].Blocks[position.Row]);
+            Debug.Log("BLocks to clear FIRST is: " + blockLine.Count);
             blockLine.AddRange(GetConnectingNeighbor(position, 1));
+            Debug.Log("BLocks to clear SECND is: " + blockLine.Count);
             blockLine.AddRange(GetConnectingNeighbor(position, -1));
+            Debug.Log("BLocks to clear THRDS is: " + blockLine.Count);
+
 
             if (blockLine.Count == BlockGrid.ColumnAmount)
                 blocksToClear.AddRange(blockLine);
         }
 
         // Continue to disabling blocks and adding score, and dropping blocks down
-        // (Add new state for it?)
-        //   DisableBlocks(blocksToClear);
+        ClearBlocks(blocksToClear);
 
         OnLinesChecked?.Invoke(blocksToClear.Count);
 
         LineCheckingStarted = false;
+    }
+
+    private void ClearBlocks(List<Block> blocksToClear)
+    {
+        int blockCount = 0;
+        int lineCount = 0;
+        foreach (Block block in blocksToClear)
+        {
+            block.ToggleBlock(false);
+            blockCount += 1;
+            if(blockCount == BlockGrid.ColumnAmount)
+            {
+                blockCount = 0;
+                lineCount += 1;
+            }
+        }
+
+        Debug.Log("Calling clear blocks here");
+        onLinesCleared?.Invoke(lineCount);
     }
 
     private List<Block> GetConnectingNeighbor(BlockPosition blockPosition, int direction)

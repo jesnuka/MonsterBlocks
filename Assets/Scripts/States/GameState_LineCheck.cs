@@ -23,11 +23,13 @@ public class GameState_LineCheck : GameState
         
         if (_stateManager.GamePaused)
             TransitionState(_stateFactory.StatePaused());
-        if (_stateManager.LinesChecked)
+        if (_stateManager.LinesCleared)
         {
             _stateManager.LinesCheckStarted = false;
             _stateManager.LinesChecked = false;
-            TransitionState(_stateFactory.StateDropBlocks());
+            _stateManager.LinesCleared = false; 
+        //    TransitionState(_stateFactory.StateDropBlocks());
+            TransitionState(_stateFactory.StateMoveShape());
         }
     }
 

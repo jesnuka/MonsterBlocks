@@ -21,7 +21,7 @@ public class GameState_StartGame : GameState
         if (_stateManager.BlocksInitialized)
         {
             _stateManager.BlocksInitialized = false;
-            TransitionState(_stateFactory.StateDropBlocks());
+            TransitionState(_stateFactory.StateMoveShape());
         }
 
       //  if (_stateManager.GamePaused)

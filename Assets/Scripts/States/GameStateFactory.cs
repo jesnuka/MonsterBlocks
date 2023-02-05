@@ -25,6 +25,10 @@ public class GameStateFactory
     {
         return new GameState_LostGame(_stateManager, this, _blockGrid);
     }
+    public GameState StateMoveShape()
+    {
+        return new GameState_MoveShape(_stateManager, this, _blockGrid);
+    }
     public GameState StateDropBlocks()
     {
         return new GameState_DropBlocks(_stateManager, this, _blockGrid);

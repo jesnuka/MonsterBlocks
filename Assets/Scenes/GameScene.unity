@@ -2629,7 +2629,7 @@ GameObject:
   - component: {fileID: 947726778}
   - component: {fileID: 947726779}
   - component: {fileID: 947726780}
-  - component: {fileID: 947726781}
+  - component: {fileID: 947726782}
   m_Layer: 0
   m_Name: GameplayManager
   m_TagString: Untagged
@@ -2712,7 +2712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47817fb578cda448a6ea2be8bffc294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &947726781
+--- !u!114 &947726782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2725,6 +2725,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreTextObject: {fileID: 1981698375}
+  _scoreMultiplier: 1
+  _lineScore: 100
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
