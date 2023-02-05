@@ -1625,8 +1625,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxColumnAmount: 8
   _currentColumnAmount: 8
-  _maxRowAmount: 16
-  _currentRowAmount: 16
+  _maxRowAmount: 18
+  _currentRowAmount: 18
   _blockSpeed: 1
 --- !u!1 &585034712
 GameObject:

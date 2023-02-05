@@ -19,6 +19,10 @@ public class Block : MonoBehaviour
     private bool _isEnabled;
     public bool IsEnabled { get { return _isEnabled; } set { _isEnabled = value; } }
 
+    // Disabled blocks are never turned back on
+    private bool _isDisabled;
+    public bool IsDisabled { get { return _isDisabled; } set { _isDisabled = value; } }
+
     ~Block()
     {
 
@@ -52,8 +56,18 @@ public class Block : MonoBehaviour
         return new Vector2(RectTransform.sizeDelta.x, RectTransform.sizeDelta.y);
     }
 
+    public void DisableBlock()
+    {
+        // Turns off BlockSprite completely
+        IsEnabled = false;
+        IsDisabled = true;
+        BlockSprite.DisableBlock();
+    }
+
     public void ToggleBlock(bool value)
     {
+        if (IsDisabled)
+            return;
         IsEnabled = value;
         BlockSprite.ToggleBlock(value);
     }

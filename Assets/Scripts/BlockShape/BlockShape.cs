@@ -56,7 +56,8 @@ public abstract class BlockShape
     public BlockPosition[] GetRotatedBlockPositions(int rotationDirection)
     {
         // Get new direction
-        int newDirection = (CurrentRotation + rotationDirection) % 4;
+        int newDirection = ((CurrentRotation + BlockShapePositions.Length) - rotationDirection) % BlockShapePositions.Length;
+        CurrentRotation = newDirection;
 
         // Get the shape of the blocks in the new direction
         BlockShapePosition[] newShapePosition = BlockShapePositions[newDirection];

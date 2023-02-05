@@ -59,14 +59,14 @@ public class BlockGrid : MonoBehaviour
         // Align game board according to the size
         BlockGridObject.offsetMax = new Vector2(
         BlockGridObject.offsetMax.x,
-        -((RowAmount - 1) * BlockFactory.GetBlockPrefabSize().y));
+        -((RowAmount - 3) * BlockFactory.GetBlockPrefabSize().y));
 
         // Aligh background 
         BlockGridBackground.sizeDelta = 
             new Vector2
             (
                 (ColumnAmount) * BlockFactory.GetBlockPrefabSize().x,
-                (RowAmount) * BlockFactory.GetBlockPrefabSize().y
+                (RowAmount - 2) * BlockFactory.GetBlockPrefabSize().y
             );
 
         CreateSpawnPosition(ColumnAmount % 2);
@@ -125,6 +125,13 @@ public class BlockGrid : MonoBehaviour
                 BlockColumns[x].Blocks[y] = block;
      
             }
+        }
+
+        // Create spawn zone at the top of the grid
+        for (int x = 0; x < ColumnAmount; x++)
+        {
+            for (int y = RowAmount - 2; y < RowAmount; y++)
+                BlockColumns[x].Blocks[y].DisableBlock();
         }
     }
 
