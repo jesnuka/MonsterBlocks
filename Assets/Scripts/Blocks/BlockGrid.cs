@@ -24,6 +24,9 @@ public class BlockGrid : MonoBehaviour
     [SerializeField] private BlockLineChecker _blockLineChecker;
     public BlockLineChecker BlockLineChecker { get { return _blockLineChecker; } set { _blockLineChecker = value; } }
 
+    [SerializeField] private BlockDropper _blockDropper;
+    public BlockDropper BlockDropper { get { return _blockDropper; } set { _blockDropper = value; } }
+
     [Header("UI Elements")]
     [Tooltip("Contains the block columns, which contain blocks")]
     [SerializeField] private RectTransform _blockGridObject;
@@ -55,6 +58,8 @@ public class BlockGrid : MonoBehaviour
 
         if (BlockLineChecker == null)
             BlockLineChecker = new BlockLineChecker(this);
+        if (BlockDropper == null)
+            BlockDropper = new BlockDropper(this);
 
         // Align game board according to the size
         BlockGridObject.offsetMax = new Vector2(

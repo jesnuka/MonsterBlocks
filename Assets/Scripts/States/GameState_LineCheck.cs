@@ -28,8 +28,8 @@ public class GameState_LineCheck : GameState
             _stateManager.LinesCheckStarted = false;
             _stateManager.LinesChecked = false;
             _stateManager.LinesCleared = false; 
-        //    TransitionState(_stateFactory.StateDropBlocks());
-            TransitionState(_stateFactory.StateMoveShape());
+            TransitionState(_stateFactory.StateDropBlocks());
+         //   TransitionState(_stateFactory.StateMoveShape());
         }
     }
 

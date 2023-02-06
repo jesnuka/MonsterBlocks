@@ -58,6 +58,9 @@ public class GameStateManager : MonoBehaviour
     private bool _blocksDropped;
     public bool BlocksDropped { get { return _blocksDropped; } set { _blocksDropped = value; } }
 
+    private bool _blocksBeingDropped;
+    public bool BlocksBeingDropped { get { return _blocksBeingDropped; } set { _blocksBeingDropped = value; } }
+
     private bool _returnedToMenu;
     public bool ReturnedToMenu { get { return _returnedToMenu; } set { _returnedToMenu = value; } }
 
@@ -96,6 +99,9 @@ public class GameStateManager : MonoBehaviour
         BlockLineChecker.OnLinesChecked += LineCheck;
         BlockLineChecker.OnLineCheckStarted += LineCheckStart;
         BlockLineChecker.onLinesCleared += AllLinesCleared;
+
+        BlockDropper.OnNothingMoved += StopBlockDropping;
+        BlockDropper.OnBlocksMoved += StoppedBlocksBeingDropped;
     }
 
     private void Initialize()
@@ -169,6 +175,17 @@ public class GameStateManager : MonoBehaviour
     {
         LinesCleared = true;
     }
+
+    private void StopBlockDropping()
+    {
+        BlocksDropped = true;
+    }
+
+    private void StoppedBlocksBeingDropped()
+    {
+        BlocksBeingDropped = false;
+    }
+
     private void StartGame()
     {
         Debug.Log("started game");

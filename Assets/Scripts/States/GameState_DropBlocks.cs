@@ -22,6 +22,7 @@ public class GameState_DropBlocks : GameState
 
         if (_stateManager.BlocksDropped)
         {
+            _stateManager.BlocksBeingDropped = false;
             _stateManager.BlocksDropped = false;
             TransitionState(_stateFactory.StateMoveShape());
         }
@@ -35,6 +36,10 @@ public class GameState_DropBlocks : GameState
 
     public override void UpdateState()
     {
-
+        if (!_stateManager.BlocksBeingDropped)
+        {
+            _stateManager.BlocksBeingDropped = true;
+            _blockGrid.BlockDropper.CheckMoveBlocks();
+        }
     }
 }
