@@ -57,7 +57,6 @@ public abstract class BlockShape
     {
         // Get new direction
         int newDirection = ((CurrentRotation + BlockShapePositions.Length) - rotationDirection) % BlockShapePositions.Length;
-        CurrentRotation = newDirection;
 
         // Get the shape of the blocks in the new direction
         BlockShapePosition[] newShapePosition = BlockShapePositions[newDirection];
@@ -71,7 +70,7 @@ public abstract class BlockShape
         {
             if(i == pivotIndex)
             {
-                // Keep the same position for the pivot Block
+                // Keep the same position for the pivot Block to anchor the shape
                 rotatedBlockPositions[i] = BlockPositions[i];
             }
 
@@ -79,8 +78,8 @@ public abstract class BlockShape
             {
                 // For other blocks, calculate the new position based on the pivot Block
 
-                int column = BlockPositions[pivotIndex].Column + BlockShapePositions[newDirection][pivotIndex].X;
-                int row = BlockPositions[pivotIndex].Row + BlockShapePositions[newDirection][pivotIndex].Y;
+                int column = BlockPositions[pivotIndex].Column + (BlockShapePositions[newDirection][pivotIndex].X - BlockShapePositions[newDirection][i].X);
+                int row = BlockPositions[pivotIndex].Row + (BlockShapePositions[newDirection][pivotIndex].Y - BlockShapePositions[newDirection][i].Y);
 
                 if (column >= BlockGrid.ColumnAmount || column < 0 || row >= BlockGrid.RowAmount || row < 0)
                     return null;

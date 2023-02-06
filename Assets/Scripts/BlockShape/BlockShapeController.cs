@@ -185,10 +185,11 @@ public class BlockShapeController : MonoBehaviour
             return;
         }
 
-        // TODO:
-        // Call Rotate method of the currentBlockShape,
-        // check for collision of new positions,
-        // disable old shape and enable new shape
+        CurrentBlockShape.RotateShape(rotationDirection);
+        CurrentBlockShape.BlockPositions = newPositions;
+
+        // Enable the blocks next
+        ToggleShapeBlocks(CurrentBlockShape, true);
     }
 
     #endregion
