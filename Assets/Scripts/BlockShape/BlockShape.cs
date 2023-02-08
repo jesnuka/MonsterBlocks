@@ -95,8 +95,6 @@ public abstract class BlockShape
         BlockPosition[] movedBlockPositions = new BlockPosition[BlockPositions.Length];
         for(int i = 0; i < BlockPositions.Length; i++)
         {
-           // int row = BlockPositions[i].Row + xDirection;
-           // int column = BlockPositions[i].Column + yDirection;
             int column = BlockPositions[i].Column + xDirection;
             int row = BlockPositions[i].Row + yDirection;
 
@@ -105,6 +103,7 @@ public abstract class BlockShape
 
             movedBlockPositions[i] = new BlockPosition(column, row);
         }
+
         return movedBlockPositions;
     }
 

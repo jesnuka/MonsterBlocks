@@ -95,21 +95,6 @@ public class BlockShapeController : MonoBehaviour
 
     }
 
-    private bool CheckCollision(BlockPosition[] newPositions)
-    {
-        // Check if block already exist in the BlockShape position, or the position is out of bounds
-
-        foreach (BlockPosition blockPosition in newPositions)
-            if (BlockGrid.GetBlock(blockPosition.Column, blockPosition.Row).IsEnabled ||
-                blockPosition.Column >= BlockGrid.ColumnAmount ||
-                blockPosition.Row >= BlockGrid.RowAmount ||
-                blockPosition.Row < 0 ||
-                blockPosition.Column < 0)
-                return false;
-
-        return true;
-    }
-
     #region Movement & Rotation
     public void MoveShapeDown()
     {
@@ -130,17 +115,12 @@ public class BlockShapeController : MonoBehaviour
 
     private bool MoveShape(int xDirection, int yDirection)
     {
-        // Store previous shape
-        if (CurrentBlockShape != null && BlockShapeCreated)
-        {
-            PreviousBlockShape = CurrentBlockShape;
-            //Disable previous shape
-            ToggleShapeBlocks(PreviousBlockShape, false);
-        }
+        // Store and disable previous shape
+        StorePreviousShape();
 
         BlockPosition[] newPositions = CurrentBlockShape.GetMovedBlockPositions(xDirection, yDirection);
 
-        if (newPositions == null || !CheckCollision(newPositions))
+        if (newPositions == null || !BlockGrid.CheckCollision(newPositions))
         {
             // Toggle back previous shape
             ToggleShapeBlocks(PreviousBlockShape, true);
@@ -164,21 +144,25 @@ public class BlockShapeController : MonoBehaviour
         RotateShape(-1);
     }
 
-    private void RotateShape(int rotationDirection)
+    private void StorePreviousShape()
     {
-        // TODO: Combine with MoveShape to remove duplicate code
-
-        // Store previous shape
+        // Store and disable previous shape
         if (CurrentBlockShape != null && BlockShapeCreated)
         {
             PreviousBlockShape = CurrentBlockShape;
             //Disable previous shape
             ToggleShapeBlocks(PreviousBlockShape, false);
         }
+    }
+
+    private void RotateShape(int rotationDirection)
+    {
+        // Store and disable previous shape
+        StorePreviousShape();
 
         BlockPosition[] newPositions = CurrentBlockShape.GetRotatedBlockPositions(rotationDirection);
 
-        if (newPositions == null || !CheckCollision(newPositions))
+        if (newPositions == null || !BlockGrid.CheckCollision(newPositions))
         {
             // Toggle back previous shape
             ToggleShapeBlocks(PreviousBlockShape, true);

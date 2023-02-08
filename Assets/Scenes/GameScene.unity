@@ -3451,6 +3451,7 @@ GameObject:
   - component: {fileID: 947726777}
   - component: {fileID: 947726776}
   - component: {fileID: 947726778}
+  - component: {fileID: 947726783}
   - component: {fileID: 947726779}
   - component: {fileID: 947726780}
   - component: {fileID: 947726782}
@@ -3507,6 +3508,7 @@ MonoBehaviour:
   _gameSettings: {fileID: 583065171}
   _blockFactory: {fileID: 947726779}
   _blockShapeController: {fileID: 947726780}
+  _blockDropper: {fileID: 947726783}
   _blockGridObject: {fileID: 180523485}
   _blockGridBackground: {fileID: 1021489976}
   _blockColumns: []
@@ -3551,6 +3553,18 @@ MonoBehaviour:
   _scoreTextObject: {fileID: 1981698375}
   _scoreMultiplier: 1
   _lineScore: 100
+--- !u!114 &947726783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947726775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed72f953b382ee4987cf8ffc115cf99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

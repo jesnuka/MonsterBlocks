@@ -24,8 +24,8 @@ public class BlockGrid : MonoBehaviour
     [SerializeField] private BlockLineChecker _blockLineChecker;
     public BlockLineChecker BlockLineChecker { get { return _blockLineChecker; } set { _blockLineChecker = value; } }
 
-    [SerializeField] private BlockDropper _blockDropper;
-    public BlockDropper BlockDropper { get { return _blockDropper; } set { _blockDropper = value; } }
+    [field:SerializeField] private BlockDropper _blockDropper;
+    public BlockDropper BlockDropper { get { return _blockDropper; }}
 
     [Header("UI Elements")]
     [Tooltip("Contains the block columns, which contain blocks")]
@@ -58,8 +58,8 @@ public class BlockGrid : MonoBehaviour
 
         if (BlockLineChecker == null)
             BlockLineChecker = new BlockLineChecker(this);
-        if (BlockDropper == null)
-            BlockDropper = new BlockDropper(this);
+        if (BlockDropper != null)
+            BlockDropper.Initialize(this);
 
         // Align game board according to the size
         BlockGridObject.offsetMax = new Vector2(
@@ -88,6 +88,63 @@ public class BlockGrid : MonoBehaviour
         foreach (BlockColumn blockColumn in BlockColumns)
             Destroy(blockColumn.gameObject);
     }
+
+    public List<Block> ReturnEnabledBlocks()
+    {
+        List<Block> enabledBlocks = new List<Block>();
+        for(int x = 0; x < ColumnAmount; x++)
+        {
+            for (int y = 0; y < RowAmount; y++)
+            {
+                if (BlockColumns[x].Blocks[y].IsEnabled)
+                    enabledBlocks.Add(BlockColumns[x].Blocks[y]);
+            }
+        }
+
+        return enabledBlocks;
+    }
+
+    public bool CheckCollision(BlockPosition[] newPositions)
+    {
+        return CollisionCheck(newPositions);
+    }
+
+    public bool CheckCollision(BlockPosition newPosition)
+    {
+        if (newPosition == null)
+            return false;
+        BlockPosition[] newPositions = new BlockPosition[1];
+        newPositions[0] = newPosition;
+        return CollisionCheck(newPositions);
+    }
+    private bool CollisionCheck(BlockPosition[] newPositions)
+    {
+        // Check if block already exist in the BlockShape position, or the position is out of bounds
+        foreach (BlockPosition blockPosition in newPositions)
+            if (GetBlock(blockPosition.Column, blockPosition.Row).IsEnabled ||
+                blockPosition.Column >= ColumnAmount ||
+                blockPosition.Row >= RowAmount ||
+                blockPosition.Row < 0 ||
+                blockPosition.Column < 0)
+                return false;
+
+        return true;
+    }
+
+    public BlockPosition GetMovedBlockPosition(Block block, int xDirection, int yDirection)
+    {
+        BlockPosition movedBlockPosition = new BlockPosition(block.BlockPosition.Column, block.BlockPosition.Row);
+        int column = block.BlockPosition.Column + xDirection;
+        int row = block.BlockPosition.Row + yDirection;
+        
+        if (column >= ColumnAmount || column < 0 || row >= RowAmount || row < 0)
+            return null;
+
+        movedBlockPosition.SetPosition(column, row);
+
+        return movedBlockPosition;
+    }
+
 
     private void CreateSpawnPosition(int odd)
     {
