@@ -27,7 +27,8 @@ public class MenuContainer_LostGame : MenuContainer
 
     public override void OpenMenuExtras()
     {
-
+        _menuManager.GamePaused = false;
+        _menuManager.ReturnedToMenu = false;
     }
 
     public override void UpdateMenu()

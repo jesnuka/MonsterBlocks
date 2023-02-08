@@ -31,7 +31,8 @@ public class MenuContainer_GameSelection : MenuContainer
 
     public override void OpenMenuExtras()
     {
-
+        _menuManager.GameStarted = false;
+        _menuManager.PreviousMenuOpened = false;
     }
 
     public override void UpdateMenu()

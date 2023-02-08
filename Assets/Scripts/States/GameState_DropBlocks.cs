@@ -8,7 +8,8 @@ public class GameState_DropBlocks : GameState
 
     public override void EnterState()
     {
-
+        _stateManager.BlocksBeingDropped = false;
+        _stateManager.BlocksDropped = false;
     }
 
     public override void ExitState()

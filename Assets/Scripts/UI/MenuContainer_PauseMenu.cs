@@ -28,7 +28,7 @@ public class MenuContainer_PauseMenu : MenuContainer
 
     public override void OpenMenuExtras()
     {
-
+        _menuManager.ReturnedToMenu = false;
     }
 
     public override void UpdateMenu()

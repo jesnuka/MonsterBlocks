@@ -7,8 +7,11 @@ public class GameState_MoveShape : GameState
     public GameState_MoveShape(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid) : base(stateManager, gameStateFactory, blockGrid) { }
     public override void EnterState()
     {
+        _stateManager.ShapeCreated = false;
+        _stateManager.ShapePlaced = false;
+
         // Spawn shape to be moved
-        if(!_stateManager.ShapeCreated)
+        if (!_stateManager.ShapeCreated)
         {
             _blockGrid.BlockShapeController.CreateNewShape();
         }
@@ -25,6 +28,8 @@ public class GameState_MoveShape : GameState
 
         if (_stateManager.GameLost)
         {
+            _stateManager.ShapeCreated = false;
+            _stateManager.ShapePlaced = false;
             _stateManager.GameLost = false;
             TransitionState(_stateFactory.StateLostGame());
         }
@@ -59,11 +64,6 @@ public class GameState_MoveShape : GameState
     }
     public override void UpdateState()
     {
-     /*   if(!_stateManager.ShapeCreated)
-        {
-            _blockGrid.BlockShapeController.CreateNewShape();
-        }*/
-
         // Move shape down every so often
         if(!_blockGrid.BlockShapeController.BlockMoveStarted)
             _blockGrid.BlockShapeController.StartBlockTimedMovement();

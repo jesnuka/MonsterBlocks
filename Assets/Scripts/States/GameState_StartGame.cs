@@ -9,6 +9,7 @@ public class GameState_StartGame : GameState
 
     public override void EnterState()
     {
+        _stateManager.BlocksInitialized = false;
         _stateManager.BlockGrid.CreateBlockGrid();
     }
 

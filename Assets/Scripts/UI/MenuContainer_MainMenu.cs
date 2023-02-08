@@ -27,7 +27,7 @@ public class MenuContainer_MainMenu : MenuContainer
 
     public override void OpenMenuExtras()
     {
-
+        _menuManager.GameSelectionOpened = false;
     }
 
     public override void UpdateMenu()

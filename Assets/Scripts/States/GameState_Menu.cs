@@ -8,7 +8,7 @@ public class GameState_Menu : GameState
 
     public override void EnterState()
     {
-
+        _stateManager.GameStarted = false;
     }
 
     public override void ExitState()

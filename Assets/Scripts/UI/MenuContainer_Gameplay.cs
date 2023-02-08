@@ -6,7 +6,6 @@ public class MenuContainer_Gameplay : MenuContainer
 {
     public override void CheckInput()
     {
-
     }
 
     public override void CheckTransitions()
@@ -32,7 +31,8 @@ public class MenuContainer_Gameplay : MenuContainer
 
     public override void OpenMenuExtras()
     {
-
+        _menuManager.GameLost = false;
+        _menuManager.PreviousMenuOpened = false;
     }
 
     public override void UpdateMenu()

@@ -8,7 +8,7 @@ public class GameState_Paused : GameState
 
     public override void EnterState()
     {
-
+        _stateManager.ReturnedToMenu = false;
     }
 
     public override void ExitState()

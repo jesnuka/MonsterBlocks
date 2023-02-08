@@ -7,7 +7,7 @@ public class GameState_LostGame : GameState
     public GameState_LostGame(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid) : base(stateManager, gameStateFactory, blockGrid) { }
     public override void EnterState()
     {
-
+        _stateManager.ReturnedToMenu = false;
     }
 
     public override void ExitState()

@@ -41,6 +41,7 @@ public class ScoreManager : MonoBehaviour
     {
         _finalScoreTextObject.text = CurrentScore.ToString();
         CurrentScore = 0;
+        UpdateScoreText();
     }
 
     private void UpdateScoreText()

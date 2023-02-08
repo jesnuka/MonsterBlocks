@@ -48,6 +48,11 @@ public class BlockShapeController : MonoBehaviour
 
     public void CreateNewShape()
     {
+        // BUGI, TULEE NULL KUN TULEE MENUSTA TAKAISIN PELIIN
+        //
+        // (JA SHAPE SIJAINTI EI RESETOIDU MYÖSKÄÄN, RESETTAA GRIDI KUNNOLLA)
+
+
         if (BlockShapeFactory == null)
             CreateBlockShapeFactory();
 
