@@ -83,8 +83,10 @@ public class BlockGrid : MonoBehaviour
         GameSettings = gameSettings;
     }
 
-    private void ResetGrid()
+    public void ResetGrid()
     {
+        BlockShapeController.ResetController();
+
         foreach (BlockColumn blockColumn in BlockColumns)
             Destroy(blockColumn.gameObject);
     }

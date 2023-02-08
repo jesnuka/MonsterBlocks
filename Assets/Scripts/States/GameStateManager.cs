@@ -26,6 +26,7 @@ public class GameStateManager : MonoBehaviour
     // Events
     public static event Action<GameState> OnGameStateChanged;
     public static event Action OnBlocksInitialized;
+    public static event Action OnLostGame;
 
     // Flags
     private bool _gameStarted;
@@ -95,6 +96,7 @@ public class GameStateManager : MonoBehaviour
 
         BlockShapeController.OnBlockShapePlaced += PlaceShape;
         BlockShapeController.OnBlockShapeCreated += CreateShape;
+        BlockShapeController.OnCanNotPlaceShape += LostGame;
 
         BlockLineChecker.OnLinesChecked += LineCheck;
         BlockLineChecker.OnLineCheckStarted += LineCheckStart;
@@ -102,6 +104,7 @@ public class GameStateManager : MonoBehaviour
 
         BlockDropper.OnNothingMoved += StopBlockDropping;
         BlockDropper.OnBlocksMoved += StoppedBlocksBeingDropped;
+
     }
 
     private void Initialize()
@@ -136,6 +139,7 @@ public class GameStateManager : MonoBehaviour
 
     private void LostGame()
     {
+        OnLostGame?.Invoke();
         GameLost = true;
     }
 

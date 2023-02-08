@@ -23,6 +23,7 @@ public class BlockShapeController : MonoBehaviour
 
     public static event Action OnBlockShapeCreated;
     public static event Action OnBlockShapePlaced;
+    public static event Action OnCanNotPlaceShape;
 
     private bool _blockShapeCreated;
     public bool BlockShapeCreated { get { return _blockShapeCreated; } set { _blockShapeCreated = value; } }
@@ -47,16 +48,32 @@ public class BlockShapeController : MonoBehaviour
 
     public void CreateNewShape()
     {
-        // Create new shape of blocks to be moved down
         if (BlockShapeFactory == null)
             CreateBlockShapeFactory();
 
+        // Create new shape of blocks to be moved down
         CurrentBlockShape = BlockShapeFactory.CreateBlockShape();
 
-        MoveShape(0,0);
+        bool moveResult = MoveShape(0,0);
 
-        BlockShapeCreated = true;
-        OnBlockShapeCreated?.Invoke();
+        if(moveResult)
+        {
+            BlockShapeCreated = true;
+            OnBlockShapeCreated?.Invoke();
+        }
+        else
+        {
+            // Can not spawn a new shape, therefore game is lost
+            OnCanNotPlaceShape?.Invoke();
+        }
+
+    }
+
+    public void ResetController()
+    {
+        BlockShapeCreated = false;
+        BlockMoveStarted = false;
+        CurrentBlockShape = null;
     }
 
     public void ToggleShapeBlocks(BlockShape blockShape, bool value)
@@ -72,8 +89,6 @@ public class BlockShapeController : MonoBehaviour
     }
     public void PlaceShape()
     {
-        // TODO:
-        // Add locking of block to place
         BlockShapeCreated = false;
         OnBlockShapePlaced?.Invoke();
     }

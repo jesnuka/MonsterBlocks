@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuContainer_Gameplay : MenuContainer
+public class MenuContainer_LostGame : MenuContainer
 {
     public override void CheckInput()
     {
@@ -11,17 +11,12 @@ public class MenuContainer_Gameplay : MenuContainer
 
     public override void CheckTransitions()
     {
-        if (_menuManager.GamePaused)
-            ChangeMenu(_menuManager.PauseMenu);
-        if (_menuManager.PreviousMenuOpened)
-        {
-            _menuManager.PreviousMenuOpened = false;
-            ChangeMenu(_menuManager.PauseMenu);
-        }
-        if (_menuManager.GameLost)
+        if (_menuManager.ReturnedToMenu)
         {
             _menuManager.GameLost = false;
-            ChangeMenu(_menuManager.LostGameMenu);
+            _menuManager.GamePaused = false;
+            _menuManager.ReturnedToMenu = false;
+            ChangeMenu(_menuManager.MainMenu);
         }
     }
 

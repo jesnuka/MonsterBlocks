@@ -21,6 +21,9 @@ public class MenuManager : MonoBehaviour
     [field: SerializeField] private MenuContainer _pauseMenu;
     public MenuContainer PauseMenu { get { return _pauseMenu; } }
 
+    [field: SerializeField] private MenuContainer _lostGameMenu;
+    public MenuContainer LostGameMenu { get { return _lostGameMenu; } }
+
     // Loading screen displayed during initialization of the game
     [field: SerializeField] private MenuContainer _startingLoadingScreen;
     public MenuContainer StartingLoadingScreen { get { return _startingLoadingScreen; } }
@@ -55,8 +58,8 @@ public class MenuManager : MonoBehaviour
     private bool _gamePaused;
     public bool GamePaused { get { return _gamePaused; } set { _gamePaused = value; } }
 
-  //  private bool _gameUnpaused;
-  //  public bool GameUnpaused { get { return _gameUnpaused; } set { _gameUnpaused = value; } }
+    private bool _gameLost;
+    public bool GameLost { get { return _gameLost; } set { _gameLost = value; } }
 
     private bool _gameSelectionOpened;
     public bool GameSelectionOpened { get { return _gameSelectionOpened; } set { _gameSelectionOpened = value; } }
@@ -79,6 +82,7 @@ public class MenuManager : MonoBehaviour
     private void HandleEvents()
     {
         GameStateManager.OnBlocksInitialized += InitializeGame;
+        GameStateManager.OnLostGame += LostGame;
     }
 
     private void InitializeMenus()
@@ -120,6 +124,11 @@ public class MenuManager : MonoBehaviour
     {
         OnUnpauseGame?.Invoke();
         GamePaused = false;
+    }
+
+    public void LostGame()
+    {
+        GameLost = true;
     }
 
     public void ExitGame()

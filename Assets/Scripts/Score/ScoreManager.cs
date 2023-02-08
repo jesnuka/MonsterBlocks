@@ -7,6 +7,7 @@ using TMPro;
 public class ScoreManager : MonoBehaviour 
 {
     [SerializeField] private TMP_Text _scoreTextObject;
+    [SerializeField] private TMP_Text _finalScoreTextObject;
 
     // Multiplier that can be changed by different values, such as game difficulty
     [field:SerializeField] private int _scoreMultiplier;
@@ -22,6 +23,7 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         BlockLineChecker.onLinesCleared += AddLineScore;
+        GameStateManager.OnLostGame += SetFinalScore;
     }
     public void AddLineScore(int lineCount, int lowestRow)
     {
@@ -33,6 +35,12 @@ public class ScoreManager : MonoBehaviour
         }
 
         UpdateScoreText();
+    }
+
+    private void SetFinalScore()
+    {
+        _finalScoreTextObject.text = CurrentScore.ToString();
+        CurrentScore = 0;
     }
 
     private void UpdateScoreText()
