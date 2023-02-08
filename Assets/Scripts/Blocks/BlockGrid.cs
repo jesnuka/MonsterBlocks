@@ -152,10 +152,8 @@ public class BlockGrid : MonoBehaviour
 
         if (column < 0)
             column = 0;
-        Debug.Log("Row Amount: " + RowAmount);
         // Spawn position is at the top of the grid, but offset by the size of BlockShapes
         SpawnPosition = new BlockPosition(column, RowAmount-4);
-        Debug.Log("SpawnPosition: " + SpawnPosition);
     }
 
     public void CreateBlockGrid()

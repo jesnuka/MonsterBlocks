@@ -39,7 +39,7 @@ public class GameState_DropBlocks : GameState
         if (!_stateManager.BlocksBeingDropped)
         {
             _stateManager.BlocksBeingDropped = true;
-            _blockGrid.BlockDropper.CheckMoveBlocks();
+            _blockGrid.BlockDropper.PerformBlockMovement();
         }
     }
 }

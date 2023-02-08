@@ -171,9 +171,12 @@ public class GameStateManager : MonoBehaviour
     {
         LinesChecked = true;
     }
-    private void AllLinesCleared(int lineCount)
+    private void AllLinesCleared(int lineCount, int lowestRow)
     {
         LinesCleared = true;
+        BlockGrid.BlockDropper.LinesCleared = lineCount;
+        BlockGrid.BlockDropper.LineMovesLeft = lineCount;
+        BlockGrid.BlockDropper.LowestRowToCheck = lowestRow;
     }
 
     private void StopBlockDropping()

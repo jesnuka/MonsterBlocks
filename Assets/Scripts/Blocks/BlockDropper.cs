@@ -11,69 +11,86 @@ public class BlockDropper : MonoBehaviour
     private BlockGrid _blockGrid;
     public BlockGrid BlockGrid { get { return _blockGrid; } set { _blockGrid = value; } }
 
+    private int _linesCleared;
+    public int LinesCleared { get { return _linesCleared; } set { _linesCleared = value; } }
+
+    private int _lineMovesLeft;
+    public int LineMovesLeft { get { return _lineMovesLeft; } set { _lineMovesLeft = value; } }
+
+    private int _lowestRowToCheck;
+    public int LowestRowToCheck { get { return _lowestRowToCheck; } set { _lowestRowToCheck = value; } }
+
     public void Initialize(BlockGrid blockGrid)
     {
         BlockGrid = blockGrid;
     }
 
-    public void CheckMoveBlocks()
+    public void PerformBlockMovement()
     {
-        // Go through grid, check for blocks that are active, and if they have an empty space below them
-        // If nothing has, invoke below, otherwise MoveBlocks;
-        bool blocksMoved = false;
-        List<Block> enabledBlocks = BlockGrid.ReturnEnabledBlocks();
-        List<Block> blocksToDisable = new List<Block>();
-        List<Block> blocksToEnable = new List<Block>();
-        if(enabledBlocks.Count > 0)
-        {
-            foreach(Block block in enabledBlocks)
-            {
-                Block newPosition = CheckBlockNewPosition(block);
-                if(newPosition != null)
-                {
-                    blocksMoved = true;
-                    blocksToDisable.Add(block);
-                    blocksToEnable.Add(newPosition);
-                }
-            }
-        }
+        // Blocks have to be moved down by the amount of lines that were removed.
+        // This is only done to blocks above the cleared lines and it is done
+        // incrementally with a small delay between to show it visually to the player
 
-        if(!blocksMoved)
-            OnNothingMoved?.Invoke();
+        if(LineMovesLeft > 0)
+        {
+            // Get blocks to be moved down
+
+            List<Block> blocksToMove = new List<Block>();
+            List<Block> allBlocks = BlockGrid.ReturnEnabledBlocks();
+
+            if (allBlocks.Count > 0)
+                foreach (Block block in allBlocks)
+                    if (block.BlockPosition.Row > LowestRowToCheck)
+                        blocksToMove.Add(block);
+            else
+                LineMovesLeft = 0;
+
+            // Move blocks until lineMovesLeft == 0
+
+            List<Block> newBlocks = new List<Block>();
+
+            foreach (Block block in blocksToMove)
+            {
+                Block newPosition = GetNewBlockPosition(block);
+                if (newPosition != null)
+                    newBlocks.Add(newPosition);
+            }
+
+            StartCoroutine(BlockMoveDelay(blocksToMove, newBlocks));
+
+        }
         else
-            StartCoroutine(BlockMoveDelay(blocksToDisable, blocksToEnable));
+            OnNothingMoved?.Invoke();
 
 
     }
 
-    IEnumerator BlockMoveDelay(List<Block> blocksToDisable, List<Block> blocksToEnable)
+    IEnumerator BlockMoveDelay(List<Block> blocksToMove, List<Block> newBlocks)
     {
         // Move blocks after delay
         yield return new WaitForSeconds(0.1f);
-        MoveBlocks(blocksToDisable, blocksToEnable);
+        MoveBlocks(blocksToMove, newBlocks);
     }
 
-    private Block CheckBlockNewPosition(Block block)
+    private Block GetNewBlockPosition(Block block)
     {
-        // Check if block can be moved down, if it can be, the new position is returned
         BlockPosition newPosition = BlockGrid.GetMovedBlockPosition(block, 0, -1);
-        if (BlockGrid.CheckCollision(newPosition))
-        {
+        if (newPosition != null)
             return BlockGrid.GetBlock(newPosition.Column, newPosition.Row);
-        }
         else
             return null;
     }
 
-    private void MoveBlocks(List<Block> blocksToDisable, List<Block> blocksToEnable)
+    private void MoveBlocks(List<Block> blocksToMove, List<Block> newBlocks)
     {
-        foreach(Block block in blocksToDisable)
+        foreach(Block block in blocksToMove)
             if(block != null)
                 block.ToggleBlock(false);
-        foreach (Block block in blocksToEnable)
+        foreach (Block block in newBlocks)
             if (block != null)
                 block.ToggleBlock(true);
 
+        LineMovesLeft -= 1;
         OnBlocksMoved?.Invoke();
     }
 }

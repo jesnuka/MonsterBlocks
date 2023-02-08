@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
     {
         BlockLineChecker.onLinesCleared += AddLineScore;
     }
-    public void AddLineScore(int lineCount)
+    public void AddLineScore(int lineCount, int lowestRow)
     {
         if(lineCount > 0)
         {

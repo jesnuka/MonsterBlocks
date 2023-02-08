@@ -8,7 +8,7 @@ public class BlockLineChecker
 
     public static event Action<int> OnLinesChecked;
     public static event Action OnLineCheckStarted;
-    public static event Action<int> onLinesCleared;
+    public static event Action<int, int> onLinesCleared;
 
     private BlockGrid _blockGrid;
     public BlockGrid BlockGrid { get { return _blockGrid; } set { _blockGrid = value; } }
@@ -63,8 +63,12 @@ public class BlockLineChecker
     {
         int blockCount = 0;
         int lineCount = 0;
+        int lowestRow = BlockGrid.RowAmount;
         foreach (Block block in blocksToClear)
         {
+            if(block.BlockPosition.Row < lowestRow)
+                lowestRow = block.BlockPosition.Row;
+
             block.ToggleBlock(false);
             blockCount += 1;
             if(blockCount == BlockGrid.ColumnAmount)
@@ -74,8 +78,7 @@ public class BlockLineChecker
             }
         }
 
-        Debug.Log("Calling clear blocks here");
-        onLinesCleared?.Invoke(lineCount);
+        onLinesCleared?.Invoke(lineCount, lowestRow);
     }
 
     private List<Block> GetConnectingNeighbor(BlockPosition blockPosition, int direction)
