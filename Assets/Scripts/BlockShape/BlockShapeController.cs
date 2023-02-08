@@ -135,6 +135,9 @@ public class BlockShapeController : MonoBehaviour
 
     private bool MoveShape(int xDirection, int yDirection)
     {
+        if (CurrentBlockShape == null)
+            return false;
+
         // Store and disable previous shape
         StorePreviousShape();
 

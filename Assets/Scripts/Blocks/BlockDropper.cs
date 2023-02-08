@@ -68,7 +68,7 @@ public class BlockDropper : MonoBehaviour
     IEnumerator BlockMoveDelay(List<Block> blocksToMove, List<Block> newBlocks)
     {
         // Move blocks after delay
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.1f);
         MoveBlocks(blocksToMove, newBlocks);
     }
 

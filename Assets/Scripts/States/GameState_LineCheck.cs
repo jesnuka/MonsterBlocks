@@ -8,9 +8,6 @@ public class GameState_LineCheck : GameState
 
     public override void EnterState()
     {
-        _stateManager.LinesCheckStarted = false;
-        _stateManager.LinesChecked = false;
-        _stateManager.LinesCleared = false;
         _blockGrid.BlockLineChecker.StartLineChecking(_stateManager.BlockShapeController.CurrentBlockShape);
     }
 

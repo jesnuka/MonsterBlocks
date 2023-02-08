@@ -7,11 +7,9 @@ public class GameState_MoveShape : GameState
     public GameState_MoveShape(GameStateManager stateManager, GameStateFactory gameStateFactory, BlockGrid blockGrid) : base(stateManager, gameStateFactory, blockGrid) { }
     public override void EnterState()
     {
-        _stateManager.ShapeCreated = false;
-        _stateManager.ShapePlaced = false;
-
         // Spawn shape to be moved
-        _blockGrid.BlockShapeController.CreateNewShape();
+        if(!_stateManager.ShapeCreated)
+            _blockGrid.BlockShapeController.CreateNewShape();
         
     }
 

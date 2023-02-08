@@ -124,6 +124,18 @@ public class GameStateManager : MonoBehaviour
         CurrentState.UpdateState();
     }
 
+    public void ResetGameStates()
+    {
+        ReturnedToMenu = false;
+        BlocksDropped = false;
+        LinesCleared = false;
+        LinesChecked = false;
+        ShapeCreated = false;
+        ShapePlaced = false;
+        BlocksInitialized = false;
+        GameStarted = false;
+    }
+
     // Debug Public for now
   //  private void InitializeBlocks()
     public void InitializeBlocks()
@@ -134,12 +146,14 @@ public class GameStateManager : MonoBehaviour
 
     private void ReturnToMenu()
     {
+        ResetGameStates();
         ReturnedToMenu = true;
     }
 
     private void LostGame()
     {
         OnLostGame?.Invoke();
+        ResetGameStates();
         GameLost = true;
     }
 
