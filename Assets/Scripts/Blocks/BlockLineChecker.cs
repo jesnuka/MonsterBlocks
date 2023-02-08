@@ -40,12 +40,8 @@ public class BlockLineChecker
             List<Block> blockLine = new List<Block>();
 
             blockLine.Add(BlockGrid.BlockColumns[position.Column].Blocks[position.Row]);
-            Debug.Log("BLocks to clear FIRST is: " + blockLine.Count);
             blockLine.AddRange(GetConnectingNeighbor(position, 1));
-            Debug.Log("BLocks to clear SECND is: " + blockLine.Count);
             blockLine.AddRange(GetConnectingNeighbor(position, -1));
-            Debug.Log("BLocks to clear THRDS is: " + blockLine.Count);
-
 
             if (blockLine.Count == BlockGrid.ColumnAmount)
                 blocksToClear.AddRange(blockLine);
@@ -77,6 +73,11 @@ public class BlockLineChecker
                 lineCount += 1;
             }
         }
+
+        Debug.Log("Lines cleared " + lineCount);
+        Debug.Log("lowestRow is " + lowestRow);
+        Debug.Log("blockCount is " + blockCount);
+
 
         onLinesCleared?.Invoke(lineCount, lowestRow);
     }

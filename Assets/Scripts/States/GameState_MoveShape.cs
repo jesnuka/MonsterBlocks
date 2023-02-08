@@ -11,10 +11,8 @@ public class GameState_MoveShape : GameState
         _stateManager.ShapePlaced = false;
 
         // Spawn shape to be moved
-        if (!_stateManager.ShapeCreated)
-        {
-            _blockGrid.BlockShapeController.CreateNewShape();
-        }
+        _blockGrid.BlockShapeController.CreateNewShape();
+        
     }
 
     public override void ExitState()

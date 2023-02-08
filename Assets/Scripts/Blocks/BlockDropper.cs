@@ -40,7 +40,7 @@ public class BlockDropper : MonoBehaviour
 
             if (allBlocks.Count > 0)
                 foreach (Block block in allBlocks)
-                    if (block.BlockPosition.Row > LowestRowToCheck)
+                    if (block.BlockPosition.Row >= LowestRowToCheck)
                         blocksToMove.Add(block);
             else
                 LineMovesLeft = 0;
@@ -68,7 +68,7 @@ public class BlockDropper : MonoBehaviour
     IEnumerator BlockMoveDelay(List<Block> blocksToMove, List<Block> newBlocks)
     {
         // Move blocks after delay
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         MoveBlocks(blocksToMove, newBlocks);
     }
 
