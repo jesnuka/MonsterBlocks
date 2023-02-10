@@ -1,2 +1,2 @@
 # MonsterBlocks
-A simple Arcade Puzzle game where your goal is to match falling blocks of different shapes to form lines
+A simple Arcade Puzzle game made for practice. The goal of the game is to match falling blocks of different shapes to form lines to gain score.
