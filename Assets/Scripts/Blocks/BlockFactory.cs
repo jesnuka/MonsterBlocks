@@ -20,7 +20,6 @@ public class BlockFactory : MonoBehaviour
     }
     public Block CreateBlock(Vector3 position, Transform parent, BlockGrid blockGrid)
     {
-      //  Debug.Log("Position is: " + position);
         GameObject blockObject = Instantiate(BlockPrefab, position, Quaternion.identity);
         blockObject.transform.SetParent(parent, false);
         Block block = blockObject.GetComponent<Block>();

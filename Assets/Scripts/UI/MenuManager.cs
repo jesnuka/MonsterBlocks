@@ -145,7 +145,6 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         OnStartGame?.Invoke();
-        Debug.Log("started game");
         GameStarted = true;
     }
 

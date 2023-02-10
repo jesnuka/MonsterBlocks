@@ -73,12 +73,6 @@ public class BlockLineChecker
                 lineCount += 1;
             }
         }
-
-        Debug.Log("Lines cleared " + lineCount);
-        Debug.Log("lowestRow is " + lowestRow);
-        Debug.Log("blockCount is " + blockCount);
-
-
         onLinesCleared?.Invoke(lineCount, lowestRow);
     }
 
@@ -88,10 +82,8 @@ public class BlockLineChecker
         List<Block> blocksToClear = new List<Block>();
 
         direction = Mathf.Clamp(direction, -1, 1);
-      //  if (blockPosition.Row + direction <= (BlockGrid.RowAmount - 1) && blockPosition.Row + direction >= 0)
         if (blockPosition.Column + direction <= (BlockGrid.ColumnAmount - 1) && blockPosition.Column + direction >= 0)
         {
-         //   Block neighborBlock = BlockGrid.BlockColumns[blockPosition.Column].Blocks[blockPosition.Row + direction];
             Block neighborBlock = BlockGrid.BlockColumns[blockPosition.Column + direction].Blocks[blockPosition.Row];
             if (neighborBlock != null && neighborBlock.IsEnabled)
             {

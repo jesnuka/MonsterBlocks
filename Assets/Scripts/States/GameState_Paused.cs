@@ -22,8 +22,6 @@ public class GameState_Paused : GameState
 
         if (_stateManager.ReturnedToMenu)
         {
-            Debug.Log("Returning from pause");
-            // TODO: Reset game here, so it is started again next time properly
             _stateManager.GamePaused = false;
             _stateManager.ReturnedToMenu = false;
             TransitionState(_stateFactory.StateMenu());

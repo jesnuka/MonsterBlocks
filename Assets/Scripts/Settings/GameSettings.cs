@@ -39,7 +39,6 @@ public class GameSettings: MonoBehaviour
     public static event Action<GameSettings> OnGameSettingsChanged;
     public void EnableGameSettings()
     {
-        Debug.Log("Difficulty changed to: " + this.gameObject.name);
         OnGameSettingsChanged?.Invoke(this);
     }
 

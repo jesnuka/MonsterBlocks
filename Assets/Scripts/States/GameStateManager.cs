@@ -136,8 +136,6 @@ public class GameStateManager : MonoBehaviour
         GameStarted = false;
     }
 
-    // Debug Public for now
-  //  private void InitializeBlocks()
     public void InitializeBlocks()
     {
         OnBlocksInitialized?.Invoke();
@@ -209,7 +207,6 @@ public class GameStateManager : MonoBehaviour
 
     private void StartGame()
     {
-        Debug.Log("started game");
         GameStarted = true;
     }
 }

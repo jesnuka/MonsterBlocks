@@ -24,7 +24,7 @@ public abstract class GameState
         if(newState == null)
             return;
 
-        Debug.Log("Changing State from " + this.ToString() + " to " + newState.ToString());
+     //   Debug.Log("Changing State from " + this.ToString() + " to " + newState.ToString());
 
         _stateManager.PreviousState = this;
 
