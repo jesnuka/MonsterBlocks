@@ -17,6 +17,9 @@ public class BlockDropper : MonoBehaviour
     private int _lineMovesLeft;
     public int LineMovesLeft { get { return _lineMovesLeft; } set { _lineMovesLeft = value; } }
 
+    private bool _clearingLine;
+    public bool ClearingLine { get { return _clearingLine; } set { _clearingLine = value; } }
+
     private int _lowestRowToCheck;
     public int LowestRowToCheck { get { return _lowestRowToCheck; } set { _lowestRowToCheck = value; } }
 
@@ -33,8 +36,9 @@ public class BlockDropper : MonoBehaviour
 
         if(LineMovesLeft > 0)
         {
-            // Get blocks to be moved down
+            ClearingLine = true;
 
+            // Get blocks to be moved down
             List<Block> blocksToMove = new List<Block>();
             List<Block> allBlocks = BlockGrid.ReturnEnabledBlocks();
 
@@ -60,8 +64,10 @@ public class BlockDropper : MonoBehaviour
 
         }
         else
-            OnNothingMoved?.Invoke();
-
+        {
+            if(!ClearingLine)
+                OnNothingMoved?.Invoke();
+        }
 
     }
 
@@ -92,5 +98,10 @@ public class BlockDropper : MonoBehaviour
 
         LineMovesLeft -= 1;
         OnBlocksMoved?.Invoke();
+        ClearingLine = false;
+
+        if (LineMovesLeft <= 0)
+            OnNothingMoved?.Invoke();
+
     }
 }

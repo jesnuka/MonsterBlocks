@@ -53,7 +53,7 @@ public class BlockShapeFactory
     {
         // Choose the type of BlockShape
 
-        int rand = Random.Range(0, 6);
+        int rand = Random.Range(0, 1);
 
         switch(rand)
         {
