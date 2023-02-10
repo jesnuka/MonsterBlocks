@@ -160,11 +160,11 @@ public class BlockShapeController : MonoBehaviour
 
     public void RotateShapeClockwise()
     {
-        RotateShape(1);
+        RotateShape(-1);
     }
     public void RotateShapeCounterclockwise()
     {
-        RotateShape(-1);
+        RotateShape(1);
     }
 
     private void StorePreviousShape()
